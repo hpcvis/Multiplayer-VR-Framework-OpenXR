@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 /// such as the player's head and hands, and synchronizes the positions and andimations of these components.
 /// </summary>
 
-public class NetworkedPlayer : Valve.VR.InteractionSystem.Player
+public class NetworkedPlayer : MonoBehaviour
 {
     public GameObject remotePlayerHeadPrefab;
     public GameObject remotePlayerHandPrefab;
@@ -28,7 +28,7 @@ public class NetworkedPlayer : Valve.VR.InteractionSystem.Player
     /// Instantates network representations of the player (head, hands)
     /// Instantiation done here since Awake() and Start() are private members of Valve.VR.InteractionSystem.Player 
     /// </summary>
-    private void OnEnable()
+    protected void OnEnable()
     {
         Debug.Log("autocleanup: " + PhotonNetwork.CurrentRoom.AutoCleanUp);
         CreateNetworkedRepresentation();
@@ -39,10 +39,8 @@ public class NetworkedPlayer : Valve.VR.InteractionSystem.Player
     /// <summary>
     /// Calls SteamVR player Update() function and synchronizes the positions of the network object representations.
     /// </summary>
-    protected override void Update()
+    protected void Update()
     {
-        base.Update();
-
         if (networkedPlayerHead)
         {
             SyncNetworkTransform(networkedPlayerHead, cameraTransform);
@@ -63,7 +61,7 @@ public class NetworkedPlayer : Valve.VR.InteractionSystem.Player
     /// I have tried many things to get these networked objects manually cleaned up, but never got them working.
     /// The solution to this is to let Photon clean up orphaned objects.
     /// </summary>
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         Debug.Log("NetworkedPlayer::OnDestroy()");
         DestroyNetworkedRepresentation();

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using Valve.VR.InteractionSystem;
 using System;
 
 //Transfers ownership on the server to the player interacting with it, or back to the server if nobody is interacting with it

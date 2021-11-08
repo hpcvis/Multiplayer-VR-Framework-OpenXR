@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using Unity;
 using System;
-using Valve.VR;
 
 //Used to dont destroy on load for the player. Attached to the player
 public class PlayerManager : MonoBehaviour
