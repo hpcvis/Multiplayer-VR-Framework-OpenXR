@@ -91,7 +91,8 @@ public class LaunchServerRooms : MonoBehaviourPunCallbacks
     private void Update()
     {
         //Escape is how to exit the program, if escape is pressed, it will close the application down
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.F4))
+        // TODO: needs to use the input system
+        if (false)//(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.F4))
         {
             Debug.LogError("Escape was pressed, closing application. ");
             Quit();
