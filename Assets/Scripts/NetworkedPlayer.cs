@@ -15,6 +15,7 @@ public class NetworkedPlayer : MonoBehaviour
     public GameObject remotePlayerHeadPrefab;
     public GameObject remotePlayerHandPrefab;
     public Transform cameraTransform;
+    public Transform networkedRepresentationParent;
 
     public Transform[] handTransforms;
     public Animator[] handAnimators;
@@ -102,6 +103,7 @@ public class NetworkedPlayer : MonoBehaviour
             remotePlayerHeadPrefab.name,
             cameraTransform.position,
             cameraTransform.rotation);
+        networkedPlayerHead.transform.SetParent(networkedRepresentationParent);
 
         // disable local rendering of the player head to avoid visual issues with shadows
         if (networkedPlayerHead.GetComponent<PhotonView>().IsMine)
@@ -119,6 +121,7 @@ public class NetworkedPlayer : MonoBehaviour
                 remotePlayerHandPrefab.name,
                 handTransforms[i].position,
                 handTransforms[i].rotation);
+            networkedHands[i].transform.SetParent(networkedRepresentationParent);
             networkedHandAnimators[i] = networkedHands[i].GetComponentInChildren<Animator>();
 
             // disable the mesh of the networked player instance locally, since there are SteamVR hands to render

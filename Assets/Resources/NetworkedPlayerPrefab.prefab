@@ -1136,6 +1136,36 @@ Transform:
   m_Father: {fileID: 2839141653751117932}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4716496671143033234
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 886363791505981907}
+  m_Layer: 0
+  m_Name: Networked Representation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &886363791505981907
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4716496671143033234}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1762141181225780847}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5282357775510310123
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,6 +1329,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2839141653791706976}
+  - {fileID: 886363791505981907}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1317,7 +1348,10 @@ MonoBehaviour:
   remotePlayerHeadPrefab: {fileID: 400008532225938788, guid: 89c6026b302a4d8458fa33717f54c84f, type: 3}
   remotePlayerHandPrefab: {fileID: 6346621012592817420, guid: 15fca4c2a2ebb9344ab133872c21f85c, type: 3}
   cameraTransform: {fileID: 2839141654051001261}
+  networkedRepresentationParent: {fileID: 886363791505981907}
   handTransforms:
   - {fileID: 2839141654103710064}
   - {fileID: 2839141653751117932}
-  handAnimators: []
+  handAnimators:
+  - {fileID: 0}
+  - {fileID: 0}
