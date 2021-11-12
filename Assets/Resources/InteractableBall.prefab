@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -6797478155946017911}
   - component: {fileID: 2435671162162765841}
   - component: {fileID: 4451180264936073482}
+  - component: {fileID: 3115005111436867091}
   m_Layer: 0
   m_Name: InteractableBall
   m_TagString: Interactable
@@ -286,3 +287,18 @@ MonoBehaviour:
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
+--- !u!114 &3115005111436867091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978460341195638889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80115987c806eaa43a6c6d3e32554846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionManagerName: Default Interaction Manager
+  interactable: {fileID: 4451180264936073482}
+  interactor: {fileID: 0}

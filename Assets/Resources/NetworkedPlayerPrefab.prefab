@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 2839141653751117933}
   - component: {fileID: 4609946993161576618}
   - component: {fileID: 3815186630291704471}
+  - component: {fileID: 5687650038692002781}
   m_Layer: 0
   m_Name: Right Hand Controller
   m_TagString: Untagged
@@ -302,6 +303,21 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5687650038692002781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839141653751117935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80115987c806eaa43a6c6d3e32554846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionManagerName: Default Interaction Manager
+  interactable: {fileID: 0}
+  interactor: {fileID: 4609946993161576618}
 --- !u!1 &2839141653791706979
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,7 +1103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80115987c806eaa43a6c6d3e32554846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionManagerName: 
+  interactionManagerName: Teleportation Interaction Manager
   interactable: {fileID: 0}
   interactor: {fileID: 2659337583326970424}
 --- !u!1 &2839141654233992089
