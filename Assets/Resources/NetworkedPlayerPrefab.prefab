@@ -233,7 +233,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_AttachTransform: {fileID: 0}
-  m_StartingSelectedInteractable: {fileID: 4451180264936073482, guid: 4324a1674132eca4989b499e17849fac, type: 3}
+  m_StartingSelectedInteractable: {fileID: 0}
   m_HoverEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_OnSelectExited:
     m_PersistentCalls:
       m_Calls: []
-  m_SelectActionTrigger: 2
+  m_SelectActionTrigger: 0
   m_HideControllerOnSelect: 0
   m_PlayAudioClipOnSelectEntered: 0
   m_AudioClipForOnSelectEntered: {fileID: 0}
