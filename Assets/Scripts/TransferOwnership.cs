@@ -14,6 +14,12 @@ public class TransferOwnership : MonoBehaviourPun
     public void transferOwnership()
     {
         base.photonView.RequestOwnership();
+        Debug.Log("Ownership of object " + this.name + " transferred to controller " + base.photonView.OwnerActorNr);
+    }
+
+    public void TestCallback()
+    {
+        Debug.Log("callback called");
     }
 }
 
