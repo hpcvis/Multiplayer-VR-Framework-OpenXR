@@ -108,7 +108,7 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
             //We get the index we want to spawn by looking at how many players are - 1 (since it counts yourself), we only want to count other players
             int spawnPointIndex;
             spawnPointIndex = PhotonNetwork.CurrentRoom.PlayerCount - 1;
-            Debug.LogError("Current amount of players in network is: " + spawnPointIndex + " , spawning you in index " + spawnPointIndex);
+            Debug.Log("Current amount of players in network is: " + spawnPointIndex + " , spawning you in index " + spawnPointIndex);
             
             //this loop ensures that the amount of spawnpoints available doesn't exceed the amount of players
             //As a result, if there are more players than spawnpoints, we just loop back to the beginning spawnpoint

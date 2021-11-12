@@ -17,7 +17,6 @@ public class LaunchServerRooms : MonoBehaviourPunCallbacks
         // #Critical
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.AutomaticallySyncScene = true;
-        
         Connect();
     }
     #endregion
@@ -86,17 +85,6 @@ public class LaunchServerRooms : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
-    }
-
-    private void Update()
-    {
-        //Escape is how to exit the program, if escape is pressed, it will close the application down
-        // TODO: needs to use the input system
-        if (false)//(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.F4))
-        {
-            Debug.LogError("Escape was pressed, closing application. ");
-            Quit();
-        }
     }
 
     // Exits the application
