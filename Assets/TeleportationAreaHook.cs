@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Class that gives the TeleportationArea a reference to the TeleportationProvider.
@@ -18,6 +19,17 @@ public class TeleportationAreaHook : MonoBehaviour
     /// Gives the TeleportationArea a reference to the TeleportationProvider in the XR Rig.
     /// </summary>
     private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        Hook();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Hook();
+    }
+
+    private void Hook()
     {
         GameObject obj = GameObject.Find(teleportationAreaName);
         if (obj)

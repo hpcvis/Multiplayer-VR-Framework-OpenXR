@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.SceneManagement;
 
 public class InteractionManagerHook : MonoBehaviour
 {
@@ -10,6 +11,17 @@ public class InteractionManagerHook : MonoBehaviour
     public XRBaseInteractor interactor = null;
 
     void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        Hook();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Hook();
+    }
+
+    private void Hook()
     {
         GameObject obj = GameObject.Find(interactionManagerName);
         XRInteractionManager manager = obj.GetComponent<XRInteractionManager>();

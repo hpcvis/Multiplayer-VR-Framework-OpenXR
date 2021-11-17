@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIEventCameraHook : MonoBehaviour
 {
@@ -9,6 +10,17 @@ public class UIEventCameraHook : MonoBehaviour
     public Camera XRCamera;
 
     private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        Hook();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Hook();
+    }
+
+    private void Hook()
     {
         foreach (string c in canvasNames)
         {
