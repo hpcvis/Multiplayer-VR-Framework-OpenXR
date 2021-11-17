@@ -31,6 +31,9 @@ public class NetworkedPlayer : MonoBehaviour
     /// </summary>
     protected void OnEnable()
     {
+        // allow for scene transitions
+        DontDestroyOnLoad(this.gameObject);
+
         Debug.Log("autocleanup: " + PhotonNetwork.CurrentRoom.AutoCleanUp);
         CreateNetworkedRepresentation();
         SceneManager.sceneLoaded += OnSceneLoaded;
