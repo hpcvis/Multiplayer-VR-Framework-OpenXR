@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Object that mananages sets of interactors. One interactor may be active at a time.
@@ -11,6 +12,8 @@ public class ControllerManager : MonoBehaviour
 {
     public GameObject[] controllers;
     public uint selectedController = 0;
+    [SerializeField]
+    InputActionProperty cycleInteractor;
 
     private void Awake()
     {
@@ -23,6 +26,16 @@ public class ControllerManager : MonoBehaviour
         {
             controllers[selectedController].SetActive(true);
         }
+
+        cycleInteractor.action.started += IncrementController;
+    }
+
+    private void IncrementController(InputAction.CallbackContext obj)
+    {
+        Debug.Log("Interaction incremented.");
+        controllers[selectedController].SetActive(false);
+        selectedController = (selectedController + 1) % (uint) controllers.Length;
+        controllers[selectedController].SetActive(true);
     }
 
     public void SetActiveController(uint controllerIndex)
