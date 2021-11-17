@@ -78,7 +78,7 @@ MonoBehaviour:
   controllers:
   - {fileID: 2839141654103710067}
   - {fileID: 8293672559270978443}
-  selectedController: 0
+  selectedController: 1
 --- !u!1 &2839141653357282707
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,9 +585,10 @@ GameObject:
   - component: {fileID: 2839141654051001256}
   - component: {fileID: 2839141654051001259}
   - component: {fileID: 2839141654051001258}
+  - component: {fileID: 2767435627261454987}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -631,7 +632,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 1000
-  field of view: 60
+  field of view: 110.059074
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -703,6 +704,21 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Rotation
       m_Flags: 0
+--- !u!114 &2767435627261454987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839141654051001260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24094a1dc37d9de4c85c1dc7c4b30897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasNames:
+  - MenuInterface
+  XRCamera: {fileID: 2839141654051001256}
 --- !u!1 &2839141654103710067
 GameObject:
   m_ObjectHideFlags: 0
@@ -794,7 +810,7 @@ MonoBehaviour:
       m_SingletonActionBindings:
       - m_Name: 
         m_Id: 5a43a92a-4a1b-42cc-a333-b70005cd5a7c
-        m_Path: <XRController>{LeftHand}/gripPressed
+        m_Path: <XRController>{LeftHand}/triggerPressed
         m_Interactions: 
         m_Processors: 
         m_Groups: 
@@ -1259,7 +1275,7 @@ GameObject:
   - component: {fileID: 338173889609476552}
   - component: {fileID: 1559587502791475201}
   m_Layer: 0
-  m_Name: Interaction Controller
+  m_Name: UI Interaction Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1354,7 +1370,15 @@ MonoBehaviour:
       m_Id: 464d1b3f-d219-4f6d-810d-42f65b4e79f7
       m_Processors: 
       m_Interactions: 
-      m_SingletonActionBindings: []
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 78678922-7947-483f-863c-4d033005f015
+        m_Path: <XRController>{LeftHand}/triggerPressed
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: UI Press
+        m_Flags: 0
     m_Reference: {fileID: 0}
   m_HapticDeviceAction:
     m_UseReference: 0
@@ -1405,7 +1429,7 @@ MonoBehaviour:
   m_InteractionManager: {fileID: 0}
   m_InteractionLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
   m_AttachTransform: {fileID: 0}
   m_StartingSelectedInteractable: {fileID: 0}
   m_HoverEntered:
@@ -1481,7 +1505,7 @@ MonoBehaviour:
   m_SphereCastRadius: 0.1
   m_RaycastMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
   m_RaycastTriggerInteraction: 1
   m_HitClosestOnly: 0
   m_KeepSelectedTargetValid: 1
@@ -1668,7 +1692,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_InvalidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
+    key0: {r: 1, g: 0, b: 0, a: 0}
     key1: {r: 1, g: 0, b: 0, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}

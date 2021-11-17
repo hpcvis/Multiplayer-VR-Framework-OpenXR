@@ -20,7 +20,10 @@ public class TeleportationAreaHook : MonoBehaviour
     private void Awake()
     {
         GameObject obj = GameObject.Find(teleportationAreaName);
-        TeleportationArea area = obj.GetComponent<TeleportationArea>();
-        area.teleportationProvider = teleportationProvider;
+        if (obj)
+        {
+            TeleportationArea area = obj.GetComponent<TeleportationArea>();
+            area.teleportationProvider = teleportationProvider;
+        }
     }
 }
