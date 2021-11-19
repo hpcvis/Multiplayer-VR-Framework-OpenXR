@@ -11,9 +11,15 @@ using UnityEngine.InputSystem;
 public class ControllerManager : MonoBehaviour
 {
     public GameObject[] controllers;
+    public Animator[] animators;
+    public NetworkedPlayer networkedPlayer;
+    public bool isRightHand;
     public uint selectedController = 0;
     [SerializeField]
-    InputActionProperty cycleInteractor;
+    public InputActionProperty cycleInteractor;
+
+    [SerializeField]
+    public InputActionProperty triggerAnimation;
 
     private void Awake()
     {
@@ -25,9 +31,15 @@ public class ControllerManager : MonoBehaviour
         if (controllers.Length > 0)
         {
             controllers[selectedController].SetActive(true);
+            networkedPlayer.handAnimators[isRightHand ? 1 : 0] = animators[selectedController];
         }
 
         cycleInteractor.action.started += IncrementController;
+    }
+
+    private void Update()
+    {
+        animators[selectedController].SetBool("IsGrabbing", triggerAnimation.action.ReadValue<float>() > 0.0f);
     }
 
     private void IncrementController(InputAction.CallbackContext obj)
@@ -36,6 +48,8 @@ public class ControllerManager : MonoBehaviour
         controllers[selectedController].SetActive(false);
         selectedController = (selectedController + 1) % (uint) controllers.Length;
         controllers[selectedController].SetActive(true);
+
+        networkedPlayer.handAnimators[isRightHand ? 1 : 0] = animators[selectedController];
     }
 
     public void SetActiveController(uint controllerIndex)

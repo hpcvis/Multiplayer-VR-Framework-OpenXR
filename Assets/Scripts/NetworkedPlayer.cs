@@ -67,7 +67,6 @@ public class NetworkedPlayer : MonoBehaviour
     /// </summary>
     protected void OnDestroy()
     {
-        Debug.Log("NetworkedPlayer::OnDestroy()");
         DestroyNetworkedRepresentation();
     }
 
@@ -80,7 +79,6 @@ public class NetworkedPlayer : MonoBehaviour
     /// <param name="mode">Loaded scene mode</param>
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("NetworkedPlayer::OnSceneLoaded()");
         CreateNetworkedRepresentation();
     }
 
@@ -91,7 +89,6 @@ public class NetworkedPlayer : MonoBehaviour
     /// <param name="current">Current scene name</param>
     void OnSceneUnloaded(Scene current)
     {
-        Debug.Log("NetworkedPlayer::OnSceneUnloaded()");
         DestroyNetworkedRepresentation();
     }
     #endregion
