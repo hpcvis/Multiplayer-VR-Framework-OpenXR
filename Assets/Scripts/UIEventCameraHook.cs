@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Hook script that gives a reference to an XR HMD camera to any Canvases that require one.
+/// Canvas names are used to find the Canvases themselves.
+/// </summary>
 public class UIEventCameraHook : MonoBehaviour
 {
     [Tooltip("List of names of canvas objects that require an event camera")]

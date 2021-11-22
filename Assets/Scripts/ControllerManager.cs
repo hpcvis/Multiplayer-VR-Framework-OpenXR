@@ -5,8 +5,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Object that mananages sets of interactors. One interactor may be active at a time.
-/// Necessary, since only one XRBaseINteractor is allowed to be on an object with an ActionBasedController component.
+/// Object that mananages sets of interactors. Only one interactor may be active at a time.
+/// Necessary, since only one XRBaseInteractor is allowed to be on an object with an ActionBasedController component.
 /// </summary>
 public class ControllerManager : MonoBehaviour
 {
@@ -50,6 +50,10 @@ public class ControllerManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Increments the controller index by one, looping back to 0 when necessary.
+    /// </summary>
+    /// <param name="obj">Unity input system callback context.</param>
     private void IncrementController(InputAction.CallbackContext obj)
     {
         Debug.Log("Interaction incremented.");
@@ -60,6 +64,10 @@ public class ControllerManager : MonoBehaviour
         networkedPlayer.handAnimators[isRightHand ? 1 : 0] = animators[selectedController];
     }
 
+    /// <summary>
+    /// Sets the currently active controller.
+    /// </summary>
+    /// <param name="controllerIndex">Index of controller to switch to.</param>
     public void SetActiveController(uint controllerIndex)
     {
         if (controllerIndex >= controllers.Length)

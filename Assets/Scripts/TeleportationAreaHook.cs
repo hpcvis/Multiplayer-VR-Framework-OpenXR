@@ -5,7 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Class that gives the TeleportationArea a reference to the TeleportationProvider.
+/// Hook script that gives the TeleportationArea a reference to the TeleportationProvider.
 /// The TeleportationArea is intended to find the TeleportationProvider when the scene loads,
 /// but since we load the player in late, we need to do this ourselves.
 /// </summary>

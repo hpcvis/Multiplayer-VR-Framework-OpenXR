@@ -4,22 +4,23 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 
-//Transfers ownership on the server to the player interacting with it, or back to the server if nobody is interacting with it
+/// <summary>
+/// Transfers the ownership of an object that this script is placed on to the player that most recently interacted with it.
+/// Ownership will transfer back to the server if nobody has interacted with it [is this true? I don't think so, we need to update the behavior so that it is true]
+/// Ownership transfer allows for lower latency for the player that is currently interacting with the object.
+/// This is important: the owner should see minimum latency for objects they interact with to increase immersion.
+/// While other users will experience a short delay, this tradeoff is worth it, as opposed to a larger, universal delay for all players.
+/// </summary>
 public class TransferOwnership : MonoBehaviourPun
 {
-    //Transfers ownership of the interactable objects between players
-    //[outdated comment] This method gets invoked in the modified Interactable.cs when a player either touches or let's go of the given object
-    //Transfer ownership also allows for lower latency for the person that is currently interacting with the object, since they are the owner they should see everything live
-    //Other users will experience a short delay, however, it's worth the trade off in comparison to a universal delay
+    /// <summary>
+    /// Transfer ownership of this object to the player that invoked this callback.
+    /// This callback should be registered in the XRBaseInteractable callbacks of the object.
+    /// </summary>
     public void transferOwnership()
     {
         base.photonView.RequestOwnership();
         Debug.Log("Ownership of object " + this.name + " transferred to controller " + base.photonView.OwnerActorNr);
-    }
-
-    public void TestCallback()
-    {
-        Debug.Log("callback called");
     }
 }
 

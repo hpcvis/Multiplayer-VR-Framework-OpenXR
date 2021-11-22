@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Hook script that provides a reference to a controller manager to the menu system.
+/// This is used to facilitate the menu button that disables pointer lines.
+/// The hook fires on player instantiation and on each scene change.
+/// </summary>
 public class MenuSystemHook : MonoBehaviour
 {
     public string menuSystemName;
