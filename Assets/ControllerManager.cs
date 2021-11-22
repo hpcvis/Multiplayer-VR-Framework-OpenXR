@@ -10,11 +10,15 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class ControllerManager : MonoBehaviour
 {
-    public GameObject[] controllers;
-    public Animator[] animators;
     public NetworkedPlayer networkedPlayer;
     public bool isRightHand;
     public uint selectedController = 0;
+
+    public GameObject[] controllers;
+    public Animator[] animators;
+    public bool disablePointers;
+    public XRInteractorLineVisual[] pointers;
+
     [SerializeField]
     public InputActionProperty cycleInteractor;
 
@@ -40,6 +44,10 @@ public class ControllerManager : MonoBehaviour
     private void Update()
     {
         animators[selectedController].SetBool("IsGrabbing", triggerAnimation.action.ReadValue<float>() > 0.0f);
+        if (pointers.Length > 0)
+        {
+            pointers[selectedController].enabled = !disablePointers;
+        }
     }
 
     private void IncrementController(InputAction.CallbackContext obj)

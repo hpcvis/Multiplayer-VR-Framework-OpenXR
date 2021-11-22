@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9214412038769493763}
   - component: {fileID: 5061159943819595264}
+  - component: {fileID: 1192718251538552208}
   m_Layer: 0
   m_Name: LeftHand
   m_TagString: Untagged
@@ -76,15 +77,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f008b7af30e5b4e935df130814b5ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkedPlayer: {fileID: 2568098673700873808}
+  isRightHand: 0
+  selectedController: 0
   controllers:
   - {fileID: 2839141654103710067}
   - {fileID: 8293672559270978443}
   animators:
   - {fileID: 8226121921093925316}
   - {fileID: 7673383652259114950}
-  networkedPlayer: {fileID: 2568098673700873808}
-  isRightHand: 0
-  selectedController: 0
+  disablePointers: 0
+  pointers:
+  - {fileID: 1390869364359172396}
+  - {fileID: 338173889609476552}
   cycleInteractor:
     m_UseReference: 1
     m_Action:
@@ -115,6 +120,20 @@ MonoBehaviour:
         m_Action: Trigger Animation
         m_Flags: 0
     m_Reference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+--- !u!114 &1192718251538552208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492453456166554869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858103d02201d7d4e94c7760316121da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuSystemName: MenuInterface
+  ctrlMgr: {fileID: 5061159943819595264}
 --- !u!1 &2839141653357282707
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,13 +1361,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f008b7af30e5b4e935df130814b5ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkedPlayer: {fileID: 2568098673700873808}
+  isRightHand: 1
+  selectedController: 0
   controllers:
   - {fileID: 2839141653751117935}
   animators:
   - {fileID: 1544247788378694402}
-  networkedPlayer: {fileID: 2568098673700873808}
-  isRightHand: 1
-  selectedController: 0
+  disablePointers: 0
+  pointers: []
   cycleInteractor:
     m_UseReference: 0
     m_Action:

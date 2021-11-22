@@ -22,8 +22,7 @@ public class MenuSystem : MonoBehaviour
 {
     public GameObject VoiceToggle;
     public GameObject STTToggle;
-    private LineRenderer PointerSystem;
-    private MeshRenderer PointerBall;
+    public ControllerManager ctrlMgr;
 
     public void Toggle(string name)
     {
@@ -37,21 +36,7 @@ public class MenuSystem : MonoBehaviour
                 break;
 
             case "Pointer":
-                try
-                {
-                    PointerSystem = GameObject.FindGameObjectWithTag("EventCamera").GetComponent<LineRenderer>();
-                    PointerSystem.enabled = !PointerSystem.enabled;
-                    PointerBall = PointerSystem.GetComponentInChildren<MeshRenderer>();
-                    PointerBall.enabled = !PointerBall.enabled;
-                }
-                catch (Exception)
-                {
-                    if (GameObject.FindGameObjectWithTag("FallbackPlayer").activeSelf)
-                        Debug.Log("Pointer can not be disabled on Fallback Player since a Pointer does not exist on the Fallback Player");
-                    else
-                        Debug.LogError("Error: Line renderer for VR Player not found, not able to toggle Pointer");
-                }
-
+                ctrlMgr.disablePointers = !ctrlMgr.disablePointers;
                 break;
 
             case "Teleport":

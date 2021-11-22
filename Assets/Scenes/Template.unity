@@ -2458,7 +2458,6 @@ GameObject:
   - component: {fileID: 1572515357}
   - component: {fileID: 1572515356}
   - component: {fileID: 1572515355}
-  - component: {fileID: 1572515358}
   - component: {fileID: 1572515359}
   - component: {fileID: 1572515360}
   - component: {fileID: 1572515362}
@@ -2558,18 +2557,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1572515358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1572515353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 753afc810adf170409d9ad46c7d58021, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1572515359
 MonoBehaviour:
   m_ObjectHideFlags: 0
