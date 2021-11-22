@@ -8,7 +8,7 @@ using System;
 public class TransferOwnership : MonoBehaviourPun
 {
     //Transfers ownership of the interactable objects between players
-    //This method gets invoked in the modified Interactable.cs when a player either touches or let's go of the given object
+    //[outdated comment] This method gets invoked in the modified Interactable.cs when a player either touches or let's go of the given object
     //Transfer ownership also allows for lower latency for the person that is currently interacting with the object, since they are the owner they should see everything live
     //Other users will experience a short delay, however, it's worth the trade off in comparison to a universal delay
     public void transferOwnership()
