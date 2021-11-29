@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Script used to log console messages to the screen and a file in a build of the game.
+/// </summary>
 public class PrintConsole : MonoBehaviour
 {
     string myLog = "*begin log";
