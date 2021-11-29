@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Controller
+  - EventCamera
+  - SpawnPoint
+  - Button
+  - FallbackPlayer
+  - Interactable
+  - Bullet
+  - SpawnLocation
   layers:
   - Default
   - TransparentFX

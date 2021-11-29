@@ -82,6 +82,11 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
                 }
             }
         }
+
+        foreach (GameObject newObject in GameObject.FindGameObjectsWithTag("SpawnLocation"))
+        {
+            newObject.GetComponent<SpawnNetworkedObject>().Spawn();
+        }
     }
 
 
