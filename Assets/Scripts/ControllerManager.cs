@@ -19,11 +19,11 @@ public class ControllerManager : MonoBehaviour
     public bool disablePointers;
     public XRInteractorLineVisual[] pointers;
 
-    [SerializeField]
+    [Tooltip("Input action to cycle to the next controller.")]
     public InputActionProperty cycleInteractor;
-
-    [SerializeField]
+    [Tooltip("Input action that will trigger an animation.")]
     public InputActionProperty triggerAnimation;
+
 
     private void Awake()
     {
@@ -32,6 +32,7 @@ public class ControllerManager : MonoBehaviour
             ctrl.SetActive(false);
         }
 
+        // set selectedController to active
         if (controllers.Length > 0)
         {
             controllers[selectedController].SetActive(true);
@@ -56,7 +57,7 @@ public class ControllerManager : MonoBehaviour
     /// <param name="obj">Unity input system callback context.</param>
     private void IncrementController(InputAction.CallbackContext obj)
     {
-        Debug.Log("Interaction incremented.");
+        Debug.Log("Controller incremented for " + (isRightHand ? "right" : "left") + " hand.");
         controllers[selectedController].SetActive(false);
         selectedController = (selectedController + 1) % (uint) controllers.Length;
         controllers[selectedController].SetActive(true);

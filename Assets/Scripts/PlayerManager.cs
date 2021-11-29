@@ -5,7 +5,10 @@ using Photon.Pun;
 using Unity;
 using System;
 
-//Used to dont destroy on load for the player. Attached to the player
+/// <summary>
+/// Provides a reference to the player object that can be accessed anywhere.
+/// Player object must be registered with SetLocalPlayerInstance() first.
+/// </summary>
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager inst;
