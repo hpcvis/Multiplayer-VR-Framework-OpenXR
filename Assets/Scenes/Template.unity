@@ -3655,69 +3655,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2243805131025373632, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: RoomName
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373632, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: RandomRoom
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373632, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: autoTransmit
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373632, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: publishUserId
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373633, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: voiceDetection
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373633, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: transmitEnabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373633, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: unityMicrophoneDevice
-      value: Microphone (2- VIVE Pro Mutimedia Audio)
-      objectReference: {fileID: 0}
     - target: {fileID: 2243805131025373635, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
       propertyPath: m_Name
       value: NetworkVoiceManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373635, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373638, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: Settings.Port
-      value: 5055
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373638, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: Settings.Server
-      value: 172.20.199.152
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373638, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: ApplyDontDestroyOnLoad
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373638, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: Settings.UseNameServer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373638, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: globalPlaybackDelaySettings.MaxDelayHard
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373638, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: globalPlaybackDelaySettings.MaxDelaySoft
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 2243805131025373638, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: globalPlaybackDelaySettings.MinDelaySoft
-      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2243805131025373639, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
       propertyPath: m_RootOrder
@@ -3763,10 +3703,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6824970241814100204, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
-      propertyPath: remoteVoiceParent
-      value: 
-      objectReference: {fileID: 3850870562946959207, guid: 769bfd75eea823449b026796bf2c2372, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
 --- !u!1001 &2336022372402727369
@@ -3893,17 +3829,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8711179436228882823, guid: 7b95462fda8972b42be99c5845ab68fc, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8711179436228882823, guid: 7b95462fda8972b42be99c5845ab68fc, type: 3}
-      propertyPath: remotePlayerPrefab
-      value: 
-      objectReference: {fileID: 489107174789950691, guid: db208d0ed404da94f924d7011b812569, type: 3}
-    - target: {fileID: 8711179436228882823, guid: 7b95462fda8972b42be99c5845ab68fc, type: 3}
-      propertyPath: networkedPlayerPrefab
-      value: 
-      objectReference: {fileID: 9080525537414023337, guid: 363623cc7ad5e474a97798a3c0a1fbf2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b95462fda8972b42be99c5845ab68fc, type: 3}
