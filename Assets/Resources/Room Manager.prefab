@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ac2142d58755e4ba40d94d564fb0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 3822928907299386568, guid: 158102f65e541e847a27de56023373ee,
-    type: 3}
+  playerPrefab: {fileID: 3822928907299386568, guid: 158102f65e541e847a27de56023373ee, type: 3}
+  networkedPlayerPrefab: {fileID: 9080525537414023337, guid: 363623cc7ad5e474a97798a3c0a1fbf2, type: 3}
   oneSpawnPoint: 0
   interactablePrefabNames:
   - InteractableBall

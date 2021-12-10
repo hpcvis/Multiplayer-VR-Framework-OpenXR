@@ -53,25 +53,24 @@ MonoBehaviour:
   updateInterval: 50
   runInBackground: 1
   statsResetInterval: 1000
-  speakerPrefab: {fileID: 484168097643434482, guid: 769bfd75eea823449b026796bf2c2372,
-    type: 3}
+  speakerPrefab: {fileID: 484168097643434482, guid: 769bfd75eea823449b026796bf2c2372, type: 3}
   primaryRecorder: {fileID: 0}
   globalRecordersLogLevel: 3
   globalSpeakersLogLevel: 3
   globalPlaybackDelay: -1
   globalPlaybackDelaySettings:
-    MinDelaySoft: 200
-    MaxDelaySoft: 400
-    MaxDelayHard: 1000
+    MinDelaySoft: 100
+    MaxDelaySoft: 300
+    MaxDelayHard: 600
   Settings:
     AppIdRealtime: 
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
-    UseNameServer: 1
+    UseNameServer: 0
     FixedRegion: 
-    Server: 
-    Port: 0
+    Server: 172.20.199.152
+    Port: 5055
     ProxyServer: 
     Protocol: 0
     EnableProtocolFallback: 1
@@ -98,13 +97,13 @@ MonoBehaviour:
   voiceDetection: 0
   voiceDetectionThreshold: 0.01
   voiceDetectionDelayMs: 500
-  unityMicrophoneDevice: Microphone (VIVE Pro Mutimedia Audio)
+  unityMicrophoneDevice: 
   photonMicrophoneDeviceId: 0
   interestGroup: 0
   debugEchoMode: 1
   reliableMode: 0
   encrypt: 0
-  transmitEnabled: 0
+  transmitEnabled: 1
   samplingRate: 24000
   frameDuration: 20000
   bitrate: 30000
@@ -146,7 +145,7 @@ MonoBehaviour:
   autoConnect: 1
   autoTransmit: 1
   publishUserId: 0
-  RoomName: 
+  RoomName: 0
 --- !u!114 &6824970241814100204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,4 +158,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8218fb745ca2fe43a993c1dc815870c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  remoteVoiceParent: {fileID: 0}
+  remoteVoiceParent: {fileID: 3850870562946959207, guid: 769bfd75eea823449b026796bf2c2372, type: 3}
