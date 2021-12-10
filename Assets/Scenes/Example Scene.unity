@@ -722,6 +722,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VoiceToggle: {fileID: 1712973266}
   STTToggle: {fileID: 1484964019}
+  ctrlMgr: {fileID: 0}
 --- !u!114 &432189578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2105,6 +2106,9 @@ MonoBehaviour:
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
+  m_InteractionLayers:
+    m_Bits: 4294967295
+  m_SelectMode: 0
   m_CustomReticle: {fileID: 0}
   m_FirstHoverEntered:
     m_PersistentCalls:
@@ -2116,6 +2120,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastSelectExited:
     m_PersistentCalls:
       m_Calls: []
   m_SelectEntered:
@@ -2160,6 +2170,9 @@ MonoBehaviour:
   m_TeleportationProvider: {fileID: 0}
   m_MatchOrientation: 0
   m_TeleportTrigger: 0
+  m_Teleporting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!64 &1504217493
 MeshCollider:
   m_ObjectHideFlags: 0

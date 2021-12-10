@@ -562,7 +562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Timeout: 10
-  m_XRRig: {fileID: 2839141653791706977}
+  m_XRRig: {fileID: 0}
 --- !u!114 &1773277513122062574
 MonoBehaviour:
   m_ObjectHideFlags: 0

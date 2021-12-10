@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Script that implements an instance of a SteamVR player over the network.
-/// NetworkedPlayer represents a SteamVR player, as well as components of the player that should be seen over the network,
+/// Script that implements an instance of a player over the network.
+/// NetworkedPlayer represents a player, as well as components of the player that should be seen over the network,
 /// such as the player's head and hands, and synchronizes the positions and andimations of these components.
 /// </summary>
 
@@ -26,10 +26,9 @@ public class NetworkedPlayer : MonoBehaviour
 
     #region Unity Callbacks
     /// <summary>
-    /// Instantates network representations of the player (head, hands)
-    /// Instantiation done here since Awake() and Start() are private members of Valve.VR.InteractionSystem.Player 
+    /// Instantates network representations of the player (head, hands) 
     /// </summary>
-    protected void OnEnable()
+    protected void Awake()
     {
         // allow for scene transitions
         DontDestroyOnLoad(this.gameObject);
@@ -38,6 +37,19 @@ public class NetworkedPlayer : MonoBehaviour
         CreateNetworkedRepresentation();
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
+
+        List<UnityEngine.XR.InputDevice> devices = new List<UnityEngine.XR.InputDevice>();
+        UnityEngine.XR.InputDevices.GetDevices(devices);
+        foreach (var dev in devices)
+        {
+            Debug.Log("Device: " + dev.name);
+        }
+        UnityEngine.XR.InputDevices.deviceConnected += OnDeviceConnect;
+    }
+
+    private void OnDeviceConnect(UnityEngine.XR.InputDevice dev)
+    {
+        Debug.Log("Device: " + dev.name);
     }
 
     /// <summary>
