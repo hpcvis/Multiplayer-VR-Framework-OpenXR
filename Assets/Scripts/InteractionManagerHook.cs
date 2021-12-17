@@ -18,7 +18,18 @@ public class InteractionManagerHook : HookBase
     protected override void Hook()
     {
         GameObject obj = GameObject.Find(interactionManagerName);
+        if (!obj)
+        {
+            Debug.LogError("InteractionManagerHook::Hook(): Could not find an object in the scene with name " + interactionManagerName);
+            return;
+        }
+
         XRInteractionManager manager = obj.GetComponent<XRInteractionManager>();
+        if (!manager)
+        {
+            Debug.LogError("InteractionManagerHook::Hook(): Object " + interactionManagerName + " has no component of type XRInteractionManager");
+        }
+
         if (interactable)
         {
             interactable.interactionManager = manager;

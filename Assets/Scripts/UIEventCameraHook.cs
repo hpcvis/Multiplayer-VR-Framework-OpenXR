@@ -18,11 +18,20 @@ public class UIEventCameraHook : HookBase
         foreach (string c in canvasNames)
         {
             GameObject canvasObj = GameObject.Find(c);
-            if (canvasObj)
+            if (!canvasObj)
             {
-                Canvas canvas = canvasObj.GetComponent<Canvas>();
-                canvas.worldCamera = XRCamera;
+                Debug.LogError("UIEventCameraHook::Hook(): Could not find an object in the scene with name " + c);
+                continue;
             }
+
+            Canvas canvas = canvasObj.GetComponent<Canvas>();
+            if (!canvas)
+            {
+                Debug.LogError("UIEventCameraHook::Hook(): Object " + c + " has no component of type Canvas");
+                continue;
+            }
+
+            canvas.worldCamera = XRCamera;
         }
     }
 }

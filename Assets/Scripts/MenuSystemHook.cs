@@ -16,7 +16,18 @@ public class MenuSystemHook : HookBase
     protected override void Hook()
     {
         GameObject obj = GameObject.Find(menuSystemName);
+        if (!obj)
+        {
+            Debug.LogError("MenuSystemHook::Hook(): Could not find an object in the scene with name " + menuSystemName);
+            return;
+        }
+
         MenuSystem menu = obj.GetComponent<MenuSystem>();
+        if (!obj)
+        {
+            Debug.LogError("MenuSystemHook::Hook(): Object " + menuSystemName + " has no component of type MenuSystem");
+        }
+
         if (menu && ctrlMgr)
         {
             menu.ctrlMgr = ctrlMgr;
