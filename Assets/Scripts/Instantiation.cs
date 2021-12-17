@@ -5,34 +5,42 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-//Instantiates the interactables and the players
-//This script needs to be put onto any object, preferably a common spawn point object
-//
-//To use: Drag the player onto the player prefab into its respective locations in the editor
-//Drag the spawn points for the players and the spectators into their respective locations in the editor
-//
-//Note (Important): Ensure that both spawn points and spectator spawn points are within a parent prefab (as in, the actual spawnpoint locations are subsets of a spawnpoints prefab)
-//This is to allow for multiple players to spawn in different locations
-//For implementation, it is better to have it this way anyways, because this helps with being able to distinguish where the players should be spawning in
-//Refer to the Template scene and look at the "PUN Spawns" in the heiarchy to see this script in use
-//
-
+/// <summary>
+/// Instantiates the interactables and the players.
+/// This script needs to be put onto any object, preferably a common spawn point object.
+/// 
+/// To use: Drag the player onto the player prefab into its respective locations in the editor
+/// Drag the spawn points for the players and the spectators into their respective locations in the editor
+/// </summary>
+/// <remarks>
+/// Note (Important): Ensure that both spawn points and spectator spawn points are within a parent prefab (as in, the actual spawnpoint locations are subsets of a spawnpoints prefab)
+/// This is to allow for multiple players to spawn in different locations
+/// For implementation, it is better to have it this way anyways, because this helps with being able to distinguish where the players should be spawning in
+/// Refer to the Template scene and look at the "PUN Spawns" in the heiarchy to see this script in use
+/// </remarks>
 public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
-    //Reference to the main player prefab
-    public GameObject playerPrefab;
+    /// <summary>
+    /// Reference to the player prefab for network instantiation.
+    /// </summary>
     public GameObject networkedPlayerPrefab;
 
-    //spawnPoints is a container that contains spawn points
-    //You can uncomment this code out if you don't want to waste runtime finding the spawnpoints yourself and would rather do it in the editor
+    /// <summary>
+    /// List of spawn point objects in the scene. Can be uncommented if you would rather not let Unity find the spawnpoints for you for performance reasons.
+    /// </summary>
     //public GameObject[] spawnPoints;
 
     [Tooltip("Select this to be true if there is exactly 1 spawnpoint in your world")]
     public bool oneSpawnPoint = false;
 
-    //This list will instantiate all interactables defined in the editor here
+    /// <summary>
+    /// List of all interactables that need to be instantated as room objects.
+    /// </summary>
     public List<string> interactablePrefabNames;
 
+    /// <summary>
+    /// Spawns in the scene interactables if the current client is the master client.
+    /// </summary>
     private void Start()
     {
         //Checking master client avoid race conditions, as the scene is not loaded in, masterclient returns false when the program is first started
@@ -45,7 +53,9 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
     }
 
-    //OnJoinedRoom gets called locally when that player joins the given room
+    /// <summary>
+    /// Photon callback. Called locally when the player joins a room.
+    /// </summary>
     public override void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom() called");
@@ -57,11 +67,11 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
         MakeSceneInteractables();
     }
 
-
-    //This script makes the interactables inside the room that were in the scene be instantiated
-    //This works by getting the interactable's information, deleting the object inside the scene, and then spawning in a room object via photon network
-    //This is done because objects that are interactables, constantly updating, etc. need to be added as room objects, however, you can not add a room object that already exists within the scene
-    //Therefore the object is destroyed, deleting the information before making a copy that has been reuploaded
+    /// <summary>
+    /// Instantiates the required interactables in the scene.
+    /// This is done by finding interactables in the scene, deleting them, and spawning them back in as a Photon Room Object.
+    /// We do it this way because Room Objects cannot be added to the scene directly.
+    /// </summary>
     private void MakeSceneInteractables()
     {
         foreach (string interactableName in interactablePrefabNames)
@@ -89,11 +99,11 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
     }
 
-
-    // createPlayer() instantiates a player for in the network
-    // It depends off of whether or not you marked or include several spawn points
-    // If there is only one spawnPoint, it just instantiates it at the first spawn point it finds (it just assumes that there is one and spawns it)
-    // If there are multiple, the current player count is gotten from the server, and then based on that, it finds the index of the corresponding spawnPoint
+    /// <summary>
+    /// Instantiates a player in the network.
+    /// If there is only one spawnpoint, the player will be instantiated at the first spawm point it finds.
+    /// If there are multiple spawnpoints, the current player count is retrieved from the server and the player is spawned at the index (playerCount - 1).
+    /// </summary>
     private void createPlayer()
     {
         Debug.Log("Instantiation::createPlayer() called");
@@ -137,8 +147,10 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
     }
 
-
-    //Indicates to other players that the given spawnpoint was used
+    /// <summary>
+    /// Photon Remote Procedure Call used to broadcast to other players that a spawnpoint index has been used.
+    /// </summary>
+    /// <param name="indexUsed">The spawnpoint index that has been used by some other client.</param>
     [PunRPC]
     private void RPC_SpawnpointUsed(int indexUsed)
     {
@@ -151,14 +163,19 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
     }
 
-
-    //The following 2 methods are called by the canvas class, the first one is for the "Example Scene" and the following is for the "Template"
-    //It was done this way to keep instantiation of objects/people in one central location
+    /// <summary>
+    /// Instantiates two InteractableBalls as room objects. Intended to be called from a menu system (in Example Scene).
+    /// </summary>
     public void RefreshBalls()
     {
         PhotonNetwork.InstantiateRoomObject("InteractableBall", new Vector3(-1.94f, 5f, 1f), Quaternion.identity);
         PhotonNetwork.InstantiateRoomObject("InteractableBall", new Vector3(-1.94f, 5f, 3.5f), Quaternion.identity);
     }
+
+    /// <summary>
+    /// Instantiates a set of bowling pins and three balls used to knock them down.
+    /// Intended to be called from a menu system (in the Template scene).
+    /// </summary>
     public void SpawnBowling()
     {
         PhotonNetwork.InstantiateRoomObject("Pins", new Vector3(-20f, 5f, 3f), Quaternion.identity);

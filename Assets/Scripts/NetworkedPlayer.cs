@@ -9,7 +9,6 @@ using UnityEngine.SceneManagement;
 /// NetworkedPlayer represents a player, as well as components of the player that should be seen over the network,
 /// such as the player's head and hands, and synchronizes the positions and andimations of these components.
 /// </summary>
-
 public class NetworkedPlayer : MonoBehaviour
 {
     public GameObject remotePlayerHeadPrefab;

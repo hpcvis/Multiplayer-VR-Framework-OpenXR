@@ -4,14 +4,19 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-//Launches the server
-//Made sendRate and serializationRate higher to allow smoother updating of the interactable transform while it is being moved
-
+/// <summary>
+/// Launches the server.
+/// Made sendRate and serializationRate higher to allow smoother updating of the interactable transform while it is being moved
+/// </summary>
 public class LaunchServerRooms : MonoBehaviourPunCallbacks
 {
     public GameObject gameManager;
 
-    #region MonoBehaviour CallBacks
+    #region MonoBehaviour Callbacks
+
+    /// <summary>
+    /// Automatically connect to the Photon server.
+    /// </summary>
     void Awake()
     {
         // #Critical
@@ -23,6 +28,9 @@ public class LaunchServerRooms : MonoBehaviourPunCallbacks
 
     #region Public Methods
 
+    /// <summary>
+    /// Facilitates a connection with the Photon server.
+    /// </summary>
     public void Connect()
     {
         // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
@@ -45,6 +53,10 @@ public class LaunchServerRooms : MonoBehaviourPunCallbacks
     #endregion
 
     #region MonoBehaviourPunCallbacks Callbacks
+
+    /// <summary>
+    /// Photon callback. Places the player into a random room.
+    /// </summary>
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
@@ -52,13 +64,21 @@ public class LaunchServerRooms : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
     }
 
-
+    /// <summary>
+    /// Photon callback.
+    /// </summary>
+    /// <param name="cause"></param>
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
         Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
     }
 
+    /// <summary>
+    /// Photon callback. Creates a new room if there is no preexisting room to join.
+    /// </summary>
+    /// <param name="returnCode"></param>
+    /// <param name="message"></param>
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         base.OnJoinRandomFailed(returnCode, message);
@@ -68,6 +88,7 @@ public class LaunchServerRooms : MonoBehaviourPunCallbacks
         //This is because sometimes room objects belong to certain players that we want to keep (such as interactable objects)
         RoomOptions roomOptions;
         roomOptions = new RoomOptions();
+
         // Disabling the CleanupCacheOnLeave flag results in orphan objects (player head, hands) remaining when a player is disconnected
         // Whether or not keeping this flag enabled breaks other things is yet to be determined
         //roomOptions.CleanupCacheOnLeave = false;
@@ -76,18 +97,27 @@ public class LaunchServerRooms : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(null, roomOptions);
     }
 
+    /// <summary>
+    /// Photon callback.
+    /// </summary>
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
         Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
     }
 
+    /// <summary>
+    /// Photon callback.
+    /// </summary>
+    /// <param name="otherPlayer"></param>
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
     }
 
-    // Exits the application
+    /// <summary>
+    /// Exits the application
+    /// </summary>
     public void Quit()
     {
 #if UNITY_EDITOR
