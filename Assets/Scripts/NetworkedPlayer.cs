@@ -53,7 +53,7 @@ public class NetworkedPlayer : MonoBehaviour
     }
 
     /// <summary>
-    /// Calls SteamVR player Update() function and synchronizes the positions of the network object representations.
+    /// Synchronizes the positions of the network object representations.
     /// </summary>
     protected void Update()
     {
