@@ -125,7 +125,10 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
             {
                 if (spawnLocation.GetComponent<SpawnPointHelper>().spawnPointIndex == spawnPointIndex)
                 {
-                    GameObject localPlayer = Instantiate(networkedPlayerPrefab);
+                    Vector3 spawnPos = spawnLocation.transform.position;
+                    spawnPos.y = 0.0f;
+                    Quaternion spawnRot = spawnLocation.transform.rotation;
+                    GameObject localPlayer = Instantiate(networkedPlayerPrefab, spawnPos, spawnRot);
                     PlayerManager.inst.LocalPlayerInstance = localPlayer;
                     this.photonView.RPC("RPC_SpawnpointUsed", RpcTarget.AllBuffered, spawnPointIndex);
                     break; //We have found the correct spawnpoint index
