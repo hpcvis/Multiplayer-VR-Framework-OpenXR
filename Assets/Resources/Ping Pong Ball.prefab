@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -4993998775394519686}
   - component: {fileID: 9151774254029445851}
   - component: {fileID: 1584895998578921052}
-  - component: {fileID: 6798824702366603182}
+  - component: {fileID: -7901514386635185013}
   m_Layer: 0
   m_Name: Ping Pong Ball
   m_TagString: Untagged
@@ -255,11 +255,12 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -7901514386635185013}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6798824702366603182
+--- !u!114 &-7901514386635185013
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -268,10 +269,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 299493559567359292}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 1
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
