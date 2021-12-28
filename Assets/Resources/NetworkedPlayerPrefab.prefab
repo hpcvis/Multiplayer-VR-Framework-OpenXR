@@ -2278,6 +2278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   remotePlayerHeadPrefab: {fileID: 400008532225938788, guid: 89c6026b302a4d8458fa33717f54c84f, type: 3}
   remotePlayerHandPrefab: {fileID: 6346621012592817420, guid: 15fca4c2a2ebb9344ab133872c21f85c, type: 3}
+  rootTransform: {fileID: 1762141181225780847}
   cameraTransform: {fileID: 2839141654051001261}
   networkedRepresentationParent: {fileID: 886363791505981907}
   handTransforms:

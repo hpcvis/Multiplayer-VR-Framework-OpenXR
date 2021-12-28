@@ -13,6 +13,7 @@ public class NetworkedPlayer : MonoBehaviour
 {
     public GameObject remotePlayerHeadPrefab;
     public GameObject remotePlayerHandPrefab;
+    public Transform rootTransform;
     public Transform cameraTransform;
     public Transform networkedRepresentationParent;
 
@@ -167,7 +168,10 @@ public class NetworkedPlayer : MonoBehaviour
     /// <param name="sourceTransform"></param>
     private void SyncNetworkTransform(GameObject networkRepresentation, Transform sourceTransform)
     {
-        networkRepresentation.transform.position = sourceTransform.position;
+        // corrects for movement of the base NetworkedPlayer position
+        // the position of the networked representation will be incorrect on the client side,
+        // but that doesn't matter, since it should be invisible anyway
+        networkRepresentation.transform.position = sourceTransform.position + rootTransform.position;
         networkRepresentation.transform.rotation = sourceTransform.rotation;
     }
 
