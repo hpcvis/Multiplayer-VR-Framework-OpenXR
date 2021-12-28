@@ -20,6 +20,10 @@ public class BallGenerator : MonoBehaviour
 
     public void SpawnBall()
     {
-        GameObject.Instantiate(ballPrefab, this.transform.position, this.transform.rotation);
+        if (Photon.Pun.PhotonNetwork.IsMasterClient)
+            Photon.Pun.PhotonNetwork.InstantiateRoomObject(
+                ballPrefab.name, 
+                this.transform.position,
+                this.transform.rotation);
     }
 }
