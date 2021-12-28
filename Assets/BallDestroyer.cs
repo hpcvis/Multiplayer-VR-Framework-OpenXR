@@ -6,6 +6,6 @@ public class BallDestroyer : MonoBehaviour
 {
     private void OnTriggerEnter(Collider collision)
     {
-        Destroy(collision.gameObject);
+        Photon.Pun.PhotonNetwork.Destroy(collision.gameObject);
     }
 }
