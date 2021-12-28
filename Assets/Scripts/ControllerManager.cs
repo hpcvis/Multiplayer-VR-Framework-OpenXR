@@ -45,7 +45,7 @@ public class ControllerManager : MonoBehaviour
     private void Update()
     {
         animators[selectedController].SetBool("IsGrabbing", triggerAnimation.action.ReadValue<float>() > 0.0f);
-        if (pointers.Length > 0)
+        if (pointers.Length > 0 && pointers[selectedController])
         {
             pointers[selectedController].enabled = !disablePointers;
         }
