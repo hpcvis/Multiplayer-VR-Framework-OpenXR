@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 9151774254029445851}
   - component: {fileID: 1584895998578921052}
   - component: {fileID: -7901514386635185013}
+  - component: {fileID: 1195953431597095166}
   m_Layer: 0
   m_Name: Ping Pong Ball
   m_TagString: Untagged
@@ -148,7 +149,19 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1195953431597095166}
+        m_TargetAssemblyTypeName: TransferOwnership, Assembly-CSharp
+        m_MethodName: transferOwnership
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_SelectExited:
     m_PersistentCalls:
       m_Calls: []
@@ -254,7 +267,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: -7901514386635185013}
   viewIdField: 0
@@ -276,3 +289,15 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &1195953431597095166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299493559567359292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a4e066c82b29074c8ce5c0b3e2d4963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
