@@ -8,12 +8,20 @@ public class OnHitOwnershipTransfer : MonoBehaviourPun
     public void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Paddle collision");
-        var owner = base.photonView.Owner;
-        Debug.Log(owner);
-        if (owner != null)
+        var view = collision.gameObject.GetComponent<PhotonView>();
+        if (!view)
         {
-            Debug.Log("Next owner: " + base.photonView.Owner.GetNext());
-            base.photonView.TransferOwnership(base.photonView.Owner.GetNext());
+            Debug.Log("Collided object has no PhotonView.");
+            return;
+        }
+
+        var owner = view.Owner;
+        Debug.Log(owner);
+        if (owner != null) // for some reason, photon Player objects don't automatically use null as a false value
+        {
+            Debug.Log("Current owner: " + owner.UserId);
+            Debug.Log("Next owner: " + owner.GetNext().UserId);
+            view.TransferOwnership(owner.GetNext());
         }
         else
         {
