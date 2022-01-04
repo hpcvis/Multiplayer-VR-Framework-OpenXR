@@ -653,6 +653,7 @@ GameObject:
   - component: {fileID: 599980676648423387}
   - component: {fileID: 8660081782026259757}
   - component: {fileID: 5521903796519684384}
+  - component: {fileID: 5266411192400464630}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -826,7 +827,7 @@ MonoBehaviour:
   speakerInUse: {fileID: 8660081782026259757}
   AutoCreateRecorderIfNotFound: 0
   UsePrimaryRecorder: 0
-  SetupDebugSpeaker: 0
+  SetupDebugSpeaker: 1
 --- !u!114 &5943446584865054292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1006,7 +1007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KeepAliveInBackground: 60000
   ApplyDontDestroyOnLoad: 1
-  logLevel: 1
+  logLevel: 5
   enableSupportLogger: 0
   updateInterval: 50
   runInBackground: 1
@@ -1038,6 +1039,20 @@ MonoBehaviour:
   ShowSettings: 1
   MinimalTimeScaleToDispatchInFixedUpdate: -1
   AutoCreateSpeakerIfNotFound: 1
+--- !u!114 &5266411192400464630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839141654051001260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 185a5f86b0f6ee0418abe97b4b894ac8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recorder: {fileID: 5943446584865054292}
+  connection: {fileID: 5521903796519684384}
 --- !u!1 &2839141654103710067
 GameObject:
   m_ObjectHideFlags: 0
