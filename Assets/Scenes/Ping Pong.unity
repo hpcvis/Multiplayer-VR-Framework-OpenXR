@@ -276,6 +276,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkVoiceManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2243805131025373635, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2243805131025373639, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
       propertyPath: m_RootOrder
       value: 4
