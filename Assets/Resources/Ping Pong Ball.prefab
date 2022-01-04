@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1584895998578921052}
   - component: {fileID: -7901514386635185013}
   - component: {fileID: 1195953431597095166}
-  - component: {fileID: 3282493713774488453}
+  - component: {fileID: -4295543980245122746}
   m_Layer: 0
   m_Name: Ping Pong Ball
   m_TagString: Untagged
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a4e066c82b29074c8ce5c0b3e2d4963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3282493713774488453
+--- !u!114 &-4295543980245122746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -311,6 +311,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 299493559567359292}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8234a91224ff9b340ae7d056c9995866, type: 3}
+  m_Script: {fileID: 11500000, guid: a47085a54b68c2043ac3335e01f6a1f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabName: Ping Pong Ball

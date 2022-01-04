@@ -74,6 +74,7 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     private void MakeSceneInteractables()
     {
+        // TODO: this needs to be refactored
         foreach (string interactableName in interactablePrefabNames)
         {
             foreach (GameObject newInteractable in GameObject.FindGameObjectsWithTag("Interactable"))
