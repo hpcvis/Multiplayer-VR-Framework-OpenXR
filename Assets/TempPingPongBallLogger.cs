@@ -7,7 +7,7 @@ public class TempPingPongBallLogger : MonoBehaviourPun
 {
     private void Update()
     {
-        //Debug.Log("Object: " + base.photonView.ViewID + " - Owner : " + base.photonView.Owner);
-        //Debug.Log("Object: " + base.photonView.ViewID + " - Owner : " + base.photonView.Owner.GetNext());
+        Debug.Log("Object: " + base.photonView.ViewID + " - Owner : " + base.photonView.Owner.UserId);
+        Debug.Log("Object: " + base.photonView.ViewID + " - Owner : " + base.photonView.Owner.GetNext().UserId);
     }
 }

@@ -268,6 +268,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2243805131025373633, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
+      propertyPath: microphoneType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2243805131025373635, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
       propertyPath: m_Name
       value: NetworkVoiceManager
@@ -278,15 +282,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2243805131025373639, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.68759
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2243805131025373639, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.45844
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2243805131025373639, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 28.32258
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2243805131025373639, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1275,7 +1279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1304268949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1411,7 +1415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb1eeaf1d7cf93478e85315858b9f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logLevel: 0
+  logLevel: 2
 --- !u!1 &1575059040
 GameObject:
   m_ObjectHideFlags: 0
@@ -1889,7 +1893,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1858606823
 Rigidbody:
   m_ObjectHideFlags: 0
