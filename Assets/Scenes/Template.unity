@@ -559,6 +559,9 @@ MonoBehaviour:
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
+  m_InteractionLayers:
+    m_Bits: 4294967295
+  m_SelectMode: 0
   m_CustomReticle: {fileID: 400008532225938788, guid: 89c6026b302a4d8458fa33717f54c84f, type: 3}
   m_FirstHoverEntered:
     m_PersistentCalls:
@@ -570,6 +573,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastSelectExited:
     m_PersistentCalls:
       m_Calls: []
   m_SelectEntered:
@@ -614,6 +623,9 @@ MonoBehaviour:
   m_TeleportationProvider: {fileID: 0}
   m_MatchOrientation: 0
   m_TeleportTrigger: 0
+  m_Teleporting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!64 &523702144
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1738,6 +1750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LocalPlayerInstance: {fileID: 0}
+  players: []
 --- !u!4 &1137769524
 Transform:
   m_ObjectHideFlags: 0
@@ -1994,7 +2007,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ac2142d58755e4ba40d94d564fb0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 3822928907299386568, guid: 158102f65e541e847a27de56023373ee, type: 3}
   networkedPlayerPrefab: {fileID: 0}
   oneSpawnPoint: 0
   interactablePrefabNames:
