@@ -39,7 +39,11 @@ public class NetworkInstantiation : MonoBehaviourPunCallbacks
     {
         Destroy(this.gameObject);
         // prevents the newly-instantated room object from interacting with the about-to-be-deleted regular GameObject
-        GetComponent<Collider>().enabled = false;
+        var collider = GetComponent<Collider>();
+        if (collider)
+        {
+            collider.enabled = false;
+        }
 
         if (PhotonNetwork.IsMasterClient)
         {

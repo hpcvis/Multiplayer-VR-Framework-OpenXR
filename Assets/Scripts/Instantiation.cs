@@ -43,14 +43,16 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     private void Start()
     {
-        //Checking master client avoid race conditions, as the scene is not loaded in, masterclient returns false when the program is first started
-        //This is intended behavior, since we can only spawn in interactable objects when the photon server registers our game
-        //And since OnJoinedRoom only gets called once the player joins the photon server, the interactables still will need to be spawned in if there is a scene transition
-        //Therefore, the following line is only called when a new scene is loaded in, as when the game first starts we can't make the objects immediately
-        if (PhotonNetwork.IsMasterClient)
-        {
-            MakeSceneInteractables();
-        }
+        // Interactable instantiation was moved to a NetworkInstantiation script that is placed on the interactables themselves.
+
+        ////Checking master client avoid race conditions, as the scene is not loaded in, masterclient returns false when the program is first started
+        ////This is intended behavior, since we can only spawn in interactable objects when the photon server registers our game
+        ////And since OnJoinedRoom only gets called once the player joins the photon server, the interactables still will need to be spawned in if there is a scene transition
+        ////Therefore, the following line is only called when a new scene is loaded in, as when the game first starts we can't make the objects immediately
+        //if (PhotonNetwork.IsMasterClient)
+        //{
+        //    MakeSceneInteractables();
+        //}
     }
 
     /// <summary>
@@ -63,42 +65,46 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         createPlayer();
 
-        //This only gets called once when a new player joins the room. This also only happens locally
-        MakeSceneInteractables();
+        // Interactable instantiation was moved to a NetworkInstantiation script that is placed on the interactables themselves.
+
+        ////This only gets called once when a new player joins the room. This also only happens locally
+        //MakeSceneInteractables();
     }
 
-    /// <summary>
-    /// Instantiates the required interactables in the scene.
-    /// This is done by finding interactables in the scene, deleting them, and spawning them back in as a Photon Room Object.
-    /// We do it this way because Room Objects cannot be added to the scene directly.
-    /// </summary>
-    private void MakeSceneInteractables()
-    {
-        // TODO: this needs to be refactored
-        foreach (string interactableName in interactablePrefabNames)
-        {
-            foreach (GameObject newInteractable in GameObject.FindGameObjectsWithTag("Interactable"))
-            {
-                if (PhotonNetwork.IsMasterClient) //We only want to spawn one set of interactables
-                {
-                    Vector3 newPosition = newInteractable.transform.position;
-                    Quaternion newRotation = newInteractable.transform.rotation;
-                    Destroy(newInteractable);
+    // Interactable instantiation was moved to a NetworkInstantiation script that is placed on the interactables themselves.
 
-                    PhotonNetwork.InstantiateRoomObject(interactableName, newPosition, newRotation);
-                }
-                else
-                {
-                    Destroy(newInteractable);
-                }
-            }
-        }
+    ///// <summary>
+    ///// Instantiates the required interactables in the scene.
+    ///// This is done by finding interactables in the scene, deleting them, and spawning them back in as a Photon Room Object.
+    ///// We do it this way because Room Objects cannot be added to the scene directly.
+    ///// </summary>
+    //private void MakeSceneInteractables()
+    //{
+    //    // TODO: this needs to be refactored
+    //    foreach (string interactableName in interactablePrefabNames)
+    //    {
+    //        foreach (GameObject newInteractable in GameObject.FindGameObjectsWithTag("Interactable"))
+    //        {
+    //            if (PhotonNetwork.IsMasterClient) //We only want to spawn one set of interactables
+    //            {
+    //                Vector3 newPosition = newInteractable.transform.position;
+    //                Quaternion newRotation = newInteractable.transform.rotation;
+    //                Destroy(newInteractable);
 
-        foreach (GameObject newObject in GameObject.FindGameObjectsWithTag("SpawnLocation"))
-        {
-            newObject.GetComponent<SpawnNetworkedObject>().Spawn();
-        }
-    }
+    //                PhotonNetwork.InstantiateRoomObject(interactableName, newPosition, newRotation);
+    //            }
+    //            else
+    //            {
+    //                Destroy(newInteractable);
+    //            }
+    //        }
+    //    }
+
+    //    foreach (GameObject newObject in GameObject.FindGameObjectsWithTag("SpawnLocation"))
+    //    {
+    //        newObject.GetComponent<SpawnNetworkedObject>().Spawn();
+    //    }
+    //}
 
     /// <summary>
     /// Instantiates a player in the network.
