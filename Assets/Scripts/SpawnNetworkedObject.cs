@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
+/// <summary>
+/// Spawns an arbitrary prefab as a room object.
+/// It's not used in the ping pong demo, but it might be useful to someone.
+/// </summary>
 public class SpawnNetworkedObject : MonoBehaviour
 {
     [Tooltip("Prefab of the GameObject to spawn")]

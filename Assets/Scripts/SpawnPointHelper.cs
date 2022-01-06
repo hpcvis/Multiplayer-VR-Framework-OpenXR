@@ -12,9 +12,10 @@ public class SpawnPointHelper : MonoBehaviour
              "\nPlease start at 0")]
     public int spawnPointIndex = -1;
 
-    [HideInInspector]
-    public bool spawnPointUsed = false;
+    //[HideInInspector]
+    //public bool spawnPointUsed = false;
     //Used by instantiation script to indicate whether or not a player has used this spawnPoint
+    //(Wasn't actually used)
 
     [HideInInspector]
     public bool gaveWarning = false;

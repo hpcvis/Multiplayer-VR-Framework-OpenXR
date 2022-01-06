@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Periodically generates ping pong balls.
+/// </summary>
 public class BallGenerator : MonoBehaviour
 {
     public GameObject ballPrefab;
