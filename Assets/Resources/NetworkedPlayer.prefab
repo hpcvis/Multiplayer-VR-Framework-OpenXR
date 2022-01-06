@@ -626,7 +626,7 @@ GameObject:
   - component: {fileID: 5521903796519684384}
   - component: {fileID: 5266411192400464630}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: HeadCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1020,7 +1020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   KeepAliveInBackground: 60000
-  ApplyDontDestroyOnLoad: 1
+  ApplyDontDestroyOnLoad: 0
   logLevel: 1
   enableSupportLogger: 0
   updateInterval: 50
