@@ -36,7 +36,7 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// <summary>
     /// List of all interactables that need to be instantated as room objects.
     /// </summary>
-    public List<string> interactablePrefabNames;
+    //public List<string> interactablePrefabNames;
 
     /// <summary>
     /// Spawns in the scene interactables if the current client is the master client.
@@ -60,7 +60,6 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     public override void OnJoinedRoom()
     {
-        Debug.Log("OnJoinedRoom() called");
         base.OnJoinedRoom();
 
         createPlayer();
@@ -113,62 +112,82 @@ public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
     /// </summary>
     private void createPlayer()
     {
-        Debug.Log("Instantiation::createPlayer() called");
-        if (oneSpawnPoint)
-        {
-            //If you don't mark oneSpawnPoint while there only exists one spawnpoint, it'll be fine, it'll just have a little more overhead
-            GameObject spawnLocation;
-            spawnLocation = GameObject.FindGameObjectWithTag("SpawnPoint");
-            GameObject localPlayer = Instantiate(networkedPlayerPrefab);
-            PlayerManager.inst.LocalPlayerInstance = localPlayer;
-        }
-        else
-        {
-            //We want to find all spawnpoints, so here's how we do it without doing extra work in the editor
-            GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        //if (oneSpawnPoint)
+        //{
+        //    //If you don't mark oneSpawnPoint while there only exists one spawnpoint, it'll be fine, it'll just have a little more overhead
+        //    GameObject spawnLocation;
+        //    spawnLocation = GameObject.FindGameObjectWithTag("SpawnPoint");
+        //    GameObject localPlayer = Instantiate(networkedPlayerPrefab);
+        //    PlayerManager.inst.LocalPlayerInstance = localPlayer;
+        //}
+        //else
+        //{
+        //    //We want to find all spawnpoints, so here's how we do it without doing extra work in the editor
+        //    GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("SpawnPoint");
 
-            //We get the index we want to spawn by looking at how many players are - 1 (since it counts yourself), we only want to count other players
-            int spawnPointIndex;
-            spawnPointIndex = PhotonNetwork.CurrentRoom.PlayerCount - 1;
-            Debug.Log("Current amount of players in network is: " + spawnPointIndex + " , spawning you in index " + spawnPointIndex);
-            
-            //this loop ensures that the amount of spawnpoints available doesn't exceed the amount of players
-            //As a result, if there are more players than spawnpoints, we just loop back to the beginning spawnpoint
-            while (spawnPointIndex > spawnLocations.Length)
-                spawnPointIndex -= spawnLocations.Length;
+        //    //We get the index we want to spawn by looking at how many players are - 1 (since it counts yourself), we only want to count other players
+        //    int spawnPointIndex;
+        //    spawnPointIndex = PhotonNetwork.CurrentRoom.PlayerCount - 1;
+        //    Debug.Log("Current amount of players in network is: " + spawnPointIndex + " , spawning you in index " + spawnPointIndex);
 
-            //This for loop iterates through each spawnpoint until the correct one is found
-            foreach (GameObject spawnLocation in spawnLocations)
+        //    //this loop ensures that the amount of spawnpoints available doesn't exceed the amount of players
+        //    //As a result, if there are more players than spawnpoints, we just loop back to the beginning spawnpoint
+        //    while (spawnPointIndex > spawnLocations.Length)
+        //        spawnPointIndex -= spawnLocations.Length;
+
+        //    //This for loop iterates through each spawnpoint until the correct one is found
+        //    foreach (GameObject spawnLocation in spawnLocations)
+        //    {
+        //        if (spawnLocation.GetComponent<SpawnPointHelper>().spawnPointIndex == spawnPointIndex)
+        //        {
+        //            Vector3 spawnPos = spawnLocation.transform.position;
+        //            spawnPos.y = 0.0f;
+        //            Quaternion spawnRot = spawnLocation.transform.rotation;
+        //            GameObject localPlayer = Instantiate(networkedPlayerPrefab, spawnPos, spawnRot);
+        //            PlayerManager.inst.LocalPlayerInstance = localPlayer;
+        //            this.photonView.RPC("RPC_SpawnpointUsed", RpcTarget.AllBuffered, spawnPointIndex);
+        //            break; //We have found the correct spawnpoint index
+        //        }
+        //    }
+        //}
+
+        GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        int spawnPointIndex = (PhotonNetwork.CurrentRoom.PlayerCount - 1) % spawnLocations.Length;
+        Debug.Log("Current amount of players in network (including yourself) is " + PhotonNetwork.CurrentRoom.PlayerCount + ", spawning you in index " + spawnPointIndex);
+
+        foreach (GameObject spawn in spawnLocations)
+        {
+            if (spawn.GetComponent<SpawnPointHelper>().spawnPointIndex == spawnPointIndex)
             {
-                if (spawnLocation.GetComponent<SpawnPointHelper>().spawnPointIndex == spawnPointIndex)
-                {
-                    Vector3 spawnPos = spawnLocation.transform.position;
-                    spawnPos.y = 0.0f;
-                    Quaternion spawnRot = spawnLocation.transform.rotation;
-                    GameObject localPlayer = Instantiate(networkedPlayerPrefab, spawnPos, spawnRot);
-                    PlayerManager.inst.LocalPlayerInstance = localPlayer;
-                    this.photonView.RPC("RPC_SpawnpointUsed", RpcTarget.AllBuffered, spawnPointIndex);
-                    break; //We have found the correct spawnpoint index
-                }
+                Vector3 spawnPos = spawn.transform.position;
+                spawnPos.y = 0.0f;
+                Quaternion spawnRot = spawn.transform.rotation;
+                // this object is instantiated locally because it handles it's network capabilities itself
+                GameObject localPlayer = Instantiate(networkedPlayerPrefab, spawnPos, spawnRot);
+                PlayerManager.inst.LocalPlayerInstance = localPlayer;
+                // this function was used in the previous code, but had no effect on anything
+                //this.photonView.RPC("RPC_SpawnpointUsed", RpcTarget.AllBuffered, spawnPointIndex);
+                break;
             }
         }
+
     }
 
-    /// <summary>
-    /// Photon Remote Procedure Call used to broadcast to other players that a spawnpoint index has been used.
-    /// </summary>
-    /// <param name="indexUsed">The spawnpoint index that has been used by some other client.</param>
-    [PunRPC]
-    private void RPC_SpawnpointUsed(int indexUsed)
-    {
-        GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("SpawnPoint");
+    ///// <summary>
+    ///// Photon Remote Procedure Call used to broadcast to other players that a spawnpoint index has been used.
+    ///// </summary>
+    ///// <param name="indexUsed">The spawnpoint index that has been used by some other client.</param>
+    //[PunRPC]
+    //private void RPC_SpawnpointUsed(int indexUsed)
+    //{
+    //    GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("SpawnPoint");
 
-        foreach (GameObject spawnLocation in spawnLocations)
-        {
-            if (spawnLocation.GetComponent<SpawnPointHelper>().spawnPointIndex == indexUsed)
-                spawnLocation.GetComponent<SpawnPointHelper>().spawnPointUsed = true;
-        }
-    }
+    //    foreach (GameObject spawnLocation in spawnLocations)
+    //    {
+    //        if (spawnLocation.GetComponent<SpawnPointHelper>().spawnPointIndex == indexUsed)
+    //            spawnLocation.GetComponent<SpawnPointHelper>().spawnPointUsed = true;
+    //    }
+    //}
 
     /// <summary>
     /// Instantiates two InteractableBalls as room objects. Intended to be called from a menu system (in Example Scene).
