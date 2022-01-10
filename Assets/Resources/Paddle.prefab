@@ -20,7 +20,6 @@ GameObject:
   - component: {fileID: 7377537138551509710}
   - component: {fileID: 4762098793067109762}
   - component: {fileID: 4370738209733338115}
-  - component: {fileID: 3400460814869277848}
   m_Layer: 0
   m_Name: Paddle
   m_TagString: Untagged
@@ -187,7 +186,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3400460814869277848}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SwapPhotonView, Assembly-CSharp
         m_MethodName: Swap
         m_Mode: 1
@@ -202,7 +201,7 @@ MonoBehaviour:
   m_SelectExited:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3400460814869277848}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SwapPhotonView, Assembly-CSharp
         m_MethodName: Swap
         m_Mode: 1
@@ -346,7 +345,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4013107748195310266}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
@@ -367,20 +366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a4e066c82b29074c8ce5c0b3e2d4963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3400460814869277848
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4013107748195310266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5306583060bb1e469a62cd2e659587f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  view1: {fileID: 7377537138551509710}
-  view2: {fileID: 4762098793067109762}
 --- !u!1 &4013107748586979423
 GameObject:
   m_ObjectHideFlags: 0
