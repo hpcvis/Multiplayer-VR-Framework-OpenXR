@@ -1531,7 +1531,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4762098793067109762, guid: ba407a632a716e74eb6fc80e91f058d5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7377537138551509710, guid: ba407a632a716e74eb6fc80e91f058d5, type: 3}
+      propertyPath: m_TeleportEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7377537138551509710, guid: ba407a632a716e74eb6fc80e91f058d5, type: 3}
+      propertyPath: m_SynchronizeVelocity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7377537138551509710, guid: ba407a632a716e74eb6fc80e91f058d5, type: 3}
+      propertyPath: m_SynchronizeAngularVelocity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8109958881429707279, guid: ba407a632a716e74eb6fc80e91f058d5, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8109958881429707279, guid: ba407a632a716e74eb6fc80e91f058d5, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3400460814869277848, guid: ba407a632a716e74eb6fc80e91f058d5, type: 3}
+    - {fileID: 4762098793067109762, guid: ba407a632a716e74eb6fc80e91f058d5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ba407a632a716e74eb6fc80e91f058d5, type: 3}
 --- !u!1 &1467621013
 GameObject:
