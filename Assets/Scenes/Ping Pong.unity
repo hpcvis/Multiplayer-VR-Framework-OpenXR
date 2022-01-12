@@ -268,6 +268,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2243805131025373632, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
+      propertyPath: RandomRoom
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2243805131025373633, guid: d0c38f68f1a7e8a4b894a0329deb41df, type: 3}
       propertyPath: microphoneType
       value: 1

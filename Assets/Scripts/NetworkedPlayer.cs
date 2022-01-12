@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class NetworkedPlayer : MonoBehaviour
 {
+    public GameObject voiceConnectionPrefab;
     public GameObject remotePlayerHeadPrefab;
     public GameObject remotePlayerHandPrefab;
     public Transform rootTransform;
@@ -20,6 +21,7 @@ public class NetworkedPlayer : MonoBehaviour
     public Transform[] handTransforms;
     public Animator[] handAnimators;
 
+    private GameObject voiceConnection;
     private GameObject networkedPlayerHead;
     private GameObject[] networkedHands;
     private Animator[] networkedHandAnimators;
@@ -35,6 +37,7 @@ public class NetworkedPlayer : MonoBehaviour
 
         Debug.Log("autocleanup: " + PhotonNetwork.CurrentRoom.AutoCleanUp);
         CreateNetworkedRepresentation();
+        CreateVoiceConnection();
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
 
@@ -106,6 +109,19 @@ public class NetworkedPlayer : MonoBehaviour
     #endregion
 
     #region Helpers
+    /// <summary>
+    /// Initializes a prefab that manages the player's connection to the voice server.
+    /// </summary>
+    public void CreateVoiceConnection()
+    {
+        voiceConnection = PhotonNetwork.Instantiate(
+            voiceConnectionPrefab.name,
+            cameraTransform.position,
+            cameraTransform.rotation
+        );
+        voiceConnection.transform.SetParent(cameraTransform);
+    }
+
     /// <summary>
     /// Initializes the networked representations of each object.
     /// </summary>
