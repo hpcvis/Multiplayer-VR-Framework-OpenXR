@@ -97,7 +97,7 @@ MonoBehaviour:
   voiceDetectionThreshold: 0.01
   voiceDetectionDelayMs: 500
   unityMicrophoneDevice: 
-  photonMicrophoneDeviceId: 0
+  photonMicrophoneDeviceId: 1
   interestGroup: 0
   debugEchoMode: 0
   reliableMode: 0
@@ -258,15 +258,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KeepAliveInBackground: 60000
   ApplyDontDestroyOnLoad: 0
-  logLevel: 5
-  enableSupportLogger: 1
+  logLevel: 2
+  enableSupportLogger: 0
   updateInterval: 50
   runInBackground: 1
   statsResetInterval: 1000
   speakerPrefab: {fileID: 0}
   primaryRecorder: {fileID: 2315624856687224672}
-  globalRecordersLogLevel: 5
-  globalSpeakersLogLevel: 5
+  globalRecordersLogLevel: 2
+  globalSpeakersLogLevel: 2
   globalPlaybackDelay: -1
   globalPlaybackDelaySettings:
     MinDelaySoft: 200
@@ -286,7 +286,7 @@ MonoBehaviour:
     EnableProtocolFallback: 1
     AuthMode: 0
     EnableLobbyStatistics: 0
-    NetworkLogging: 5
+    NetworkLogging: 2
   ShowSettings: 1
   MinimalTimeScaleToDispatchInFixedUpdate: -1
   AutoCreateSpeakerIfNotFound: 1
