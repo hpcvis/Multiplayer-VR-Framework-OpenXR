@@ -17,6 +17,7 @@ This is a proof-of-concept for a multiplayer VR game, using ping pong as a demon
    2. [Photon specific](#photon-specific)
    3. [General components](#general-components)
    4. [Example of an interactable](#example-of-an-interactable)
+4. [Things to ignore](#things-to-ignore)
 
 ## Installation
 
@@ -128,3 +129,22 @@ The ping pong scene should have all the necessary components for basic multiplay
 * PhotonTransformView
 * NetworkInstantiation
   * Automatically handles instantiation of a room object when the server starts
+
+## Things to ignore
+
+Some things are artifacts of older versions and are no longer used. These prefabs can be ignored unless you want to incorporate them and/or see a different way of doing things.
+
+* `Assets/Resources/NetworkVoiceManager.prefab`
+* `Assets/Resources/RemoteSpeakerPrefab.prefab`
+* `Assets/Scripts/BallGenerator.cs`
+* `Assets/Scripts/Destroyer.cs`
+* `Assets/Scripts/CustomStreamingRecognizer.cs`
+  * Integrates with Google Cloud Speech-to-Text in order to transcribe user voice communication. [This is a slightly modified version of a different project.](https://github.com/oshoham/UnityGoogleStreamingSpeechToText)
+* `Assets/Scripts/STTData.cs`
+  * Helper for `CustomStreamingRecognizer.cs` that transmits voice transcripts to other players.
+* `Assets/Scripts/FallBackPointer.cs`
+* `Assets/Scripts/PrintConsole.cs`
+  * Prints the Unity console to the screen. Useful for debugging a bulit version of the template.
+* `Assets/Scripts/SpawnNetworkedObject.cs`
+* `Assets/Scripts/OnHitOwnershipTransfer.cs`
+  * Script that transfers the ownership of a ping pong ball to the other player when a player hits the ball with their paddle. (Not a very good way of doing this.)
