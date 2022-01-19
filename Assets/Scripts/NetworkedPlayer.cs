@@ -9,17 +9,19 @@ using UnityEngine.SceneManagement;
 /// NetworkedPlayer represents a player, as well as components of the player that should be seen over the network,
 /// such as the player's head and hands, and synchronizes the positions and andimations of these components.
 /// </summary>
-
 public class NetworkedPlayer : MonoBehaviour
 {
+    public GameObject voiceConnectionPrefab;
     public GameObject remotePlayerHeadPrefab;
     public GameObject remotePlayerHandPrefab;
+    public Transform rootTransform;
     public Transform cameraTransform;
     public Transform networkedRepresentationParent;
 
     public Transform[] handTransforms;
     public Animator[] handAnimators;
 
+    private GameObject voiceConnection;
     private GameObject networkedPlayerHead;
     private GameObject[] networkedHands;
     private Animator[] networkedHandAnimators;
@@ -35,6 +37,7 @@ public class NetworkedPlayer : MonoBehaviour
 
         Debug.Log("autocleanup: " + PhotonNetwork.CurrentRoom.AutoCleanUp);
         CreateNetworkedRepresentation();
+        CreateVoiceConnection();
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
 
@@ -53,7 +56,7 @@ public class NetworkedPlayer : MonoBehaviour
     }
 
     /// <summary>
-    /// Calls SteamVR player Update() function and synchronizes the positions of the network object representations.
+    /// Synchronizes the positions of the network object representations.
     /// </summary>
     protected void Update()
     {
@@ -106,6 +109,19 @@ public class NetworkedPlayer : MonoBehaviour
     #endregion
 
     #region Helpers
+    /// <summary>
+    /// Initializes a prefab that manages the player's connection to the voice server.
+    /// </summary>
+    public void CreateVoiceConnection()
+    {
+        voiceConnection = PhotonNetwork.Instantiate(
+            voiceConnectionPrefab.name,
+            cameraTransform.position,
+            cameraTransform.rotation
+        );
+        voiceConnection.transform.SetParent(cameraTransform);
+    }
+
     /// <summary>
     /// Initializes the networked representations of each object.
     /// </summary>
@@ -168,7 +184,10 @@ public class NetworkedPlayer : MonoBehaviour
     /// <param name="sourceTransform"></param>
     private void SyncNetworkTransform(GameObject networkRepresentation, Transform sourceTransform)
     {
-        networkRepresentation.transform.position = sourceTransform.position;
+        // corrects for movement of the base NetworkedPlayer position
+        // the position of the networked representation will be incorrect on the client side,
+        // but that doesn't matter, since it should be invisible anyway
+        networkRepresentation.transform.position = sourceTransform.position + rootTransform.position;
         networkRepresentation.transform.rotation = sourceTransform.rotation;
     }
 

@@ -5,157 +5,82 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-//Instantiates the interactables and the players
-//This script needs to be put onto any object, preferably a common spawn point object
-//
-//To use: Drag the player onto the player prefab into its respective locations in the editor
-//Drag the spawn points for the players and the spectators into their respective locations in the editor
-//
-//Note (Important): Ensure that both spawn points and spectator spawn points are within a parent prefab (as in, the actual spawnpoint locations are subsets of a spawnpoints prefab)
-//This is to allow for multiple players to spawn in different locations
-//For implementation, it is better to have it this way anyways, because this helps with being able to distinguish where the players should be spawning in
-//Refer to the Template scene and look at the "PUN Spawns" in the heiarchy to see this script in use
-//
+// READ THIS FIRST:
+// There have been a few substantial changes to this file:
+//  * Interactable instantiation was moved to a NetworkInstantiation script that is placed on the interactables themselves.
+//  * Spawnpoint selection was simplified.
+//  If any issues occur with spawning players or room objects, see commit 6d39ce5ece863a1e7df680c8329cbf9804e65a17.
+//  This commit has the old code commented out.
 
+
+/// <summary>
+/// Instantiates the interactables and the players.
+/// This script needs to be put onto any object, preferably a common spawn point object.
+/// 
+/// To use: Drag the player onto the player prefab into its respective locations in the editor
+/// Drag the spawn points for the players and the spectators into their respective locations in the editor
+/// </summary>
+/// <remarks>
+/// Note (Important): Ensure that both spawn points and spectator spawn points are within a parent prefab (as in, the actual spawnpoint locations are subsets of a spawnpoints prefab)
+/// This is to allow for multiple players to spawn in different locations
+/// For implementation, it is better to have it this way anyways, because this helps with being able to distinguish where the players should be spawning in
+/// Refer to the Template scene and look at the "PUN Spawns" in the heiarchy to see this script in use
+/// </remarks>
 public class Instantiation : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
-    //Reference to the main player prefab
-    public GameObject playerPrefab;
+    /// <summary>
+    /// Reference to the player prefab for network instantiation.
+    /// </summary>
     public GameObject networkedPlayerPrefab;
 
-    //spawnPoints is a container that contains spawn points
-    //You can uncomment this code out if you don't want to waste runtime finding the spawnpoints yourself and would rather do it in the editor
-    //public GameObject[] spawnPoints;
-
-    [Tooltip("Select this to be true if there is exactly 1 spawnpoint in your world")]
-    public bool oneSpawnPoint = false;
-
-    //This list will instantiate all interactables defined in the editor here
-    public List<string> interactablePrefabNames;
-
-    private void Start()
-    {
-        //Checking master client avoid race conditions, as the scene is not loaded in, masterclient returns false when the program is first started
-        //This is intended behavior, since we can only spawn in interactable objects when the photon server registers our game
-        //And since OnJoinedRoom only gets called once the player joins the photon server, the interactables still will need to be spawned in if there is a scene transition
-        //Therefore, the following line is only called when a new scene is loaded in, as when the game first starts we can't make the objects immediately
-        if (PhotonNetwork.IsMasterClient)
-        {
-            MakeSceneInteractables();
-        }
-    }
-
-    //OnJoinedRoom gets called locally when that player joins the given room
+    /// <summary>
+    /// Photon callback. Called locally when the player joins a room.
+    /// </summary>
     public override void OnJoinedRoom()
     {
-        Debug.Log("OnJoinedRoom() called");
         base.OnJoinedRoom();
-
         createPlayer();
-
-        //This only gets called once when a new player joins the room. This also only happens locally
-        MakeSceneInteractables();
     }
 
-
-    //This script makes the interactables inside the room that were in the scene be instantiated
-    //This works by getting the interactable's information, deleting the object inside the scene, and then spawning in a room object via photon network
-    //This is done because objects that are interactables, constantly updating, etc. need to be added as room objects, however, you can not add a room object that already exists within the scene
-    //Therefore the object is destroyed, deleting the information before making a copy that has been reuploaded
-    private void MakeSceneInteractables()
-    {
-        foreach (string interactableName in interactablePrefabNames)
-        {
-            foreach (GameObject newInteractable in GameObject.FindGameObjectsWithTag("Interactable"))
-            {
-                if (PhotonNetwork.IsMasterClient) //We only want to spawn one set of interactables
-                {
-                    Vector3 newPosition = newInteractable.transform.position;
-                    Quaternion newRotation = newInteractable.transform.rotation;
-                    Destroy(newInteractable);
-
-                    PhotonNetwork.InstantiateRoomObject(interactableName, newPosition, newRotation);
-                }
-                else
-                {
-                    Destroy(newInteractable);
-                }
-            }
-        }
-
-        foreach (GameObject newObject in GameObject.FindGameObjectsWithTag("SpawnLocation"))
-        {
-            newObject.GetComponent<SpawnNetworkedObject>().Spawn();
-        }
-    }
-
-
-    // createPlayer() instantiates a player for in the network
-    // It depends off of whether or not you marked or include several spawn points
-    // If there is only one spawnPoint, it just instantiates it at the first spawn point it finds (it just assumes that there is one and spawns it)
-    // If there are multiple, the current player count is gotten from the server, and then based on that, it finds the index of the corresponding spawnPoint
+    /// <summary>
+    /// Instantiates a player in the network.
+    /// The player is spawned at a spawnpoint with the index of player count - 1,
+    /// wrapping back around to 0 if it exceeds the player count.
+    /// </summary>
     private void createPlayer()
     {
-        Debug.Log("Instantiation::createPlayer() called");
-        if (oneSpawnPoint)
-        {
-            //If you don't mark oneSpawnPoint while there only exists one spawnpoint, it'll be fine, it'll just have a little more overhead
-            GameObject spawnLocation;
-            spawnLocation = GameObject.FindGameObjectWithTag("SpawnPoint");
-            GameObject localPlayer = Instantiate(networkedPlayerPrefab);
-            PlayerManager.inst.LocalPlayerInstance = localPlayer;
-        }
-        else
-        {
-            //We want to find all spawnpoints, so here's how we do it without doing extra work in the editor
-            GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        int spawnPointIndex = (PhotonNetwork.CurrentRoom.PlayerCount - 1) % spawnLocations.Length;
+        Debug.Log("Current amount of players in network (including yourself) is " + PhotonNetwork.CurrentRoom.PlayerCount + ", spawning you in index " + spawnPointIndex);
 
-            //We get the index we want to spawn by looking at how many players are - 1 (since it counts yourself), we only want to count other players
-            int spawnPointIndex;
-            spawnPointIndex = PhotonNetwork.CurrentRoom.PlayerCount - 1;
-            Debug.Log("Current amount of players in network is: " + spawnPointIndex + " , spawning you in index " + spawnPointIndex);
-            
-            //this loop ensures that the amount of spawnpoints available doesn't exceed the amount of players
-            //As a result, if there are more players than spawnpoints, we just loop back to the beginning spawnpoint
-            while (spawnPointIndex > spawnLocations.Length)
-                spawnPointIndex -= spawnLocations.Length;
-
-            //This for loop iterates through each spawnpoint until the correct one is found
-            foreach (GameObject spawnLocation in spawnLocations)
+        foreach (GameObject spawn in spawnLocations)
+        {
+            if (spawn.GetComponent<SpawnPointHelper>().spawnPointIndex == spawnPointIndex)
             {
-                if (spawnLocation.GetComponent<SpawnPointHelper>().spawnPointIndex == spawnPointIndex)
-                {
-                    GameObject localPlayer = Instantiate(networkedPlayerPrefab);
-                    PlayerManager.inst.LocalPlayerInstance = localPlayer;
-                    this.photonView.RPC("RPC_SpawnpointUsed", RpcTarget.AllBuffered, spawnPointIndex);
-                    break; //We have found the correct spawnpoint index
-                }
+                Vector3 spawnPos = spawn.transform.position;
+                spawnPos.y = 0.0f;
+                Quaternion spawnRot = spawn.transform.rotation;
+                // this object is instantiated locally because it handles it's network capabilities itself
+                GameObject localPlayer = Instantiate(networkedPlayerPrefab, spawnPos, spawnRot);
+                PlayerManager.inst.LocalPlayerInstance = localPlayer;
+                break;
             }
         }
     }
 
-
-    //Indicates to other players that the given spawnpoint was used
-    [PunRPC]
-    private void RPC_SpawnpointUsed(int indexUsed)
-    {
-        GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("SpawnPoint");
-
-        foreach (GameObject spawnLocation in spawnLocations)
-        {
-            if (spawnLocation.GetComponent<SpawnPointHelper>().spawnPointIndex == indexUsed)
-                spawnLocation.GetComponent<SpawnPointHelper>().spawnPointUsed = true;
-        }
-    }
-
-
-    //The following 2 methods are called by the canvas class, the first one is for the "Example Scene" and the following is for the "Template"
-    //It was done this way to keep instantiation of objects/people in one central location
+    /// <summary>
+    /// Instantiates two InteractableBalls as room objects. Intended to be called from a menu system (in Example Scene).
+    /// </summary>
     public void RefreshBalls()
     {
         PhotonNetwork.InstantiateRoomObject("InteractableBall", new Vector3(-1.94f, 5f, 1f), Quaternion.identity);
         PhotonNetwork.InstantiateRoomObject("InteractableBall", new Vector3(-1.94f, 5f, 3.5f), Quaternion.identity);
     }
+
+    /// <summary>
+    /// Instantiates a set of bowling pins and three balls used to knock them down.
+    /// Intended to be called from a menu system (in the Template scene).
+    /// </summary>
     public void SpawnBowling()
     {
         PhotonNetwork.InstantiateRoomObject("Pins", new Vector3(-20f, 5f, 3f), Quaternion.identity);

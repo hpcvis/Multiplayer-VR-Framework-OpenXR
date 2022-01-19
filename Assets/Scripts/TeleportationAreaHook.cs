@@ -18,10 +18,19 @@ public class TeleportationAreaHook : HookBase
     protected override void Hook()
     {
         GameObject obj = GameObject.Find(teleportationAreaName);
-        if (obj)
+        if (!obj)
         {
-            TeleportationArea area = obj.GetComponent<TeleportationArea>();
-            area.teleportationProvider = teleportationProvider;
+            Debug.LogError("TeleportationAreaHook::Hook(): Could not find an object in the scene with name " + teleportationAreaName);
+            return;
         }
+
+        TeleportationArea area = obj.GetComponent<TeleportationArea>();
+        if (!area)
+        {
+            Debug.LogError("TeleportationAreaHook::Hook(): Object " + teleportationAreaName + " has not component of type TeleportationArea");
+            return;
+        }
+
+        area.teleportationProvider = teleportationProvider;
     }
 }

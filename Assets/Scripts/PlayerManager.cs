@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager inst;
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene. Do not set manually")]
     public GameObject LocalPlayerInstance;
+    public List<GameObject> players;
 
     void Awake()
     {

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// This script is obsolete, but may be handy for reference in case fallback players need to be implemented again.
+/// </summary>
 [RequireComponent(typeof(Camera))]
 public class FallBackPointer : MonoBehaviour
 {
@@ -12,7 +15,6 @@ public class FallBackPointer : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
