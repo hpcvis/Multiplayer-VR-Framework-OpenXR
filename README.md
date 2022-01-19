@@ -2,6 +2,22 @@
 
 This is a proof-of-concept for a multiplayer VR game, using ping pong as a demonstration. This project makes use of the Unity XR Interaction Toolkit, Photon Unity Networking (PUN), Photon Voice, and Unity's OpenXR backend.
 
+## Table of Contents
+
+1. [Installation](#Installation)
+2. [General Information](#General-Information)
+   1. [The player prefab](#the-player-prefab)
+   2. [Hook scripts](#hook-scripts)
+   3. [Animations](#animations)
+   4. [Menu Systems](#menu-systems)
+   5. [Photon Voice](#photon-voice)
+   6. [Other Remarks](#other-remarks)
+3. [Project Setup](#project-setup)
+   1. [XR specific](#xr-specific)
+   2. [Photon specific](#photon-specific)
+   3. [General components](#general-components)
+   4. [Example of an interactable](#example-of-an-interactable)
+
 ## Installation
 
 1. Enable preview packages in Unity
