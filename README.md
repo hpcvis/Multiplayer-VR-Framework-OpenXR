@@ -1,6 +1,6 @@
 # Multiplayer VR Template
 
-This is a proof-of-concept for a multiplayer VR game, using ping pong as a demonstration. This project makes use of the Unity XR Interaction Toolkit, Photon Unity Networking (PUN), Photon Voice, and Unity's OpenXR backend.
+This is a proof-of-concept for a multiplayer VR game, using ping pong as a demonstration. This project makes use of the [Unity XR Interaction Toolkit](https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@2.0/manual/index.html), [Photon Unity Networking 2 (PUN 2)](https://doc.photonengine.com/en-us/pun/current/getting-started/pun-intro), [Photon Voice](https://doc.photonengine.com/en-us/voice/current/getting-started/voice-for-pun), and Unity's OpenXR backend.
 
 ## Table of Contents
 
