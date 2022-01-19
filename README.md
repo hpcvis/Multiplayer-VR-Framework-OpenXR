@@ -1,5 +1,7 @@
 # Multiplayer VR Template
 
+This is a proof-of-concept for a multiplayer VR game, using ping pong as a demonstration. This project makes use of teh Unity XR Interaction Toolkit, Photon Unity Networking (PUN), Photon Voice, and Unity's OpenXR backend.
+
 ## Installation
 
 1. Enable preview packages in Unity
@@ -8,7 +10,7 @@
 4. Go to Edit > Project Settings
 5. Under *XR Plug-in Management*, check the box next to OpenXR
 6. There should be a warning symbol that appears next to the OpenXR line. Click that and follow the instructions.
-7. The networking libraries (**P**hoton **U**nity **N**etworking) should already be included in this project
+7. The networking libraries (PUN, Photon Voice) should already be included in this project
 
 ## Project Setup
 
@@ -69,9 +71,12 @@ I believe that you can safely ignore this and voice will work fine. It seems to 
 
 I would recommend staying away from physics-heavy games/simulations. Photon does not use an authoritative physics server; the authority is the client who has ownership of the object. This means you have to do a lot of ownership transfer to ensure things look right to the right players. Even so, this can still be troublesome. The higher the speed of the objects being simulated, the harder it will be to work with the physics. The ping pong demo should be a good example of how things can get out of control very quickly.
 
-This project uses OpenXR as its backend. This was chosen to maximize compatibility with VR devices. However, OpenXR is still a very new standard, and is missing some useful features. For example, support for Vive trackers was only added a few months ago (https://github.com/KhronosGroup/OpenXR-SDK/releases/tag/release-1.0.20), and these changes have not yet propagated to Unity’s OpenXR environment yet.
-(This may have been fixed recently [on January 11, 2022, which was three days ago as of writing this!], but I have yet to test it. Related info: https://store.steampowered.com/news/app/250820?emclan=103582791435040972&emgid=3126061077819506317 
-https://forum.unity.com/threads/openxr-and-openvr-together.1113136/ (this thread, toward the end))
+This project uses OpenXR as its backend. This was chosen to maximize compatibility with VR devices. However, OpenXR is still a very new standard, and is missing some useful features. For example, support for Vive trackers was only added [a few months ago](https://github.com/KhronosGroup/OpenXR-SDK/releases/tag/release-1.0.20), and these changes have not yet propagated to Unity’s OpenXR environment yet.
+
+This may have been fixed as of January 11, 2022, <!-- [which was three days ago as of writing this!] -->
+but I have yet to test it. See these links:
+* [SteamVR beta 1.21.5 patch notes](https://store.steampowered.com/news/app/250820?emclan=103582791435040972&emgid=3126061077819506317)
+* [This thread on the Unity forums, toward the end](https://forum.unity.com/threads/openxr-and-openvr-together.1113136/)
 
 ## Example of an Interactable
 
