@@ -59,7 +59,9 @@ By default, the NetworkedPlayer prefab will have a pointer that can interact wit
 
 ### Photon Voice
 
-The VoiceConnection prefab should have working settings. The most important part of this prefab is the Transmit Enabled flag in the Recorder component of this prefab. When this flag is enabled, the user’s voice will be transmitted across the network. I have this flag unset by default. You can enable it straight up if you want always-on voice transmission, or you can write a monobehaviour that gives you push-to-talk functionality.
+The NetworkedPlayer prefab also contains the voice communications. It can be found in the scene (only at runtime, unfortunately) at DontDestroyOnLoad > NetworkedPlayer > XR Rig > Camera Offset > HeadCamera > VoiceConnection.
+
+The VoiceConnection prefab should have working settings. The most important part of this prefab is the Transmit Enabled flag in the Recorder component of this prefab. When this flag is enabled, the user’s voice will be transmitted across the network. I have this flag unset by default. You can enable it directly if you want always-on voice transmission, or you can write a MonoBehaviour that gives you push-to-talk functionality.
 
 Note: during my testing, the voice connection would throw the following error at least once:
 

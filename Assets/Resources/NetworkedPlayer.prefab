@@ -1,35 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &384034567219284771
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3900558813117819930}
-  m_Layer: 0
-  m_Name: VoiceConnection
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3900558813117819930
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 384034567219284771}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1762141181225780847}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1307697134470720883
 GameObject:
   m_ObjectHideFlags: 0
@@ -2463,7 +2433,6 @@ Transform:
   m_Children:
   - {fileID: 2839141653791706976}
   - {fileID: 886363791505981907}
-  - {fileID: 3900558813117819930}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2485,7 +2454,6 @@ MonoBehaviour:
   rootTransform: {fileID: 1762141181225780847}
   cameraTransform: {fileID: 2839141654051001261}
   networkedRepresentationParent: {fileID: 886363791505981907}
-  voiceConnectionParent: {fileID: 3900558813117819930}
   handTransforms:
   - {fileID: 2839141654103710064}
   - {fileID: 2839141653751117932}
@@ -2553,14 +2521,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8d02f21af5347b4fa82fac8de3dfd0a, type: 3}
---- !u!4 &8927338354361110136 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: c8d02f21af5347b4fa82fac8de3dfd0a, type: 3}
-  m_PrefabInstance: {fileID: 4512310103054198114}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &1544247788378694402 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: c8d02f21af5347b4fa82fac8de3dfd0a, type: 3}
+  m_PrefabInstance: {fileID: 4512310103054198114}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8927338354361110136 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: c8d02f21af5347b4fa82fac8de3dfd0a, type: 3}
   m_PrefabInstance: {fileID: 4512310103054198114}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4723680941086386598
@@ -2695,14 +2663,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8d02f21af5347b4fa82fac8de3dfd0a, type: 3}
---- !u!4 &2063507949343462590 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: c8d02f21af5347b4fa82fac8de3dfd0a, type: 3}
-  m_PrefabInstance: {fileID: 6474409634694594468}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &8226121921093925316 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: c8d02f21af5347b4fa82fac8de3dfd0a, type: 3}
+  m_PrefabInstance: {fileID: 6474409634694594468}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2063507949343462590 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: c8d02f21af5347b4fa82fac8de3dfd0a, type: 3}
   m_PrefabInstance: {fileID: 6474409634694594468}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8279078169038927585
