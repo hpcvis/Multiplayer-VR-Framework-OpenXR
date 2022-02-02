@@ -6,12 +6,13 @@ This is a proof-of-concept for a multiplayer VR game, using ping pong as a demon
 
 1. [Installation](#Installation)
 2. [General Information](#General-Information)
-   1. [The player prefab](#the-player-prefab)
-   2. [Hook scripts](#hook-scripts)
-   3. [Animations](#animations)
-   4. [Menu Systems](#menu-systems)
-   5. [Photon Voice](#photon-voice)
-   6. [Other Remarks](#other-remarks)
+   1. [Hosting your own Photon server](#hosting-your-own-photon-server)
+   2. [The player prefab](#the-player-prefab)
+   3. [Hook scripts](#hook-scripts)
+   4. [Animations](#animations)
+   5. [Menu Systems](#menu-systems)
+   6. [Photon Voice](#photon-voice)
+   7. [Other Remarks](#other-remarks)
 3. [Project Setup](#project-setup)
    1. [XR specific](#xr-specific)
    2. [Photon specific](#photon-specific)
@@ -30,6 +31,26 @@ This is a proof-of-concept for a multiplayer VR game, using ping pong as a demon
 7. The networking libraries (PUN, Photon Voice) should already be included in this project
 
 ## General Information
+
+### Hosting your own Photon server
+
+You can very easily host your own Photon server that handles **both** regular connections and Photon Voice connections.
+
+1. [Get a license at this website](https://dashboard.photonengine.com/en-US/selfhosted)
+2. [Download the server SDK from here](https://www.photonengine.com/en-us/sdks) (the self-hosted server)
+3. [Follow instructions here to set up the server with license](https://doc.photonengine.com/en-us/server/current/getting-started/photon-server-in-5min)
+4. Navigate to the PUN wizard, which is the server settings for any photon game (see attached ToServerSettings.PNG image)
+5. Change the IP address field in Unity to the IP found in the Game Server IP Config menu item that is inside of Photon Control (the app that runs the server side of things) (see ServerSettings.PNG)
+6. OPTIONAL:  Scroll down to [IP Address Config](https://doc.photonengine.com/en-us/server/current/getting-started/photon-server-in-5min#ip_address_config)  and set up your public IP through photon control. This is not a static IP, so it will change at some point unless you put photon control on a machine with a static IP.
+
+To configure the template to connect to your server, you need to change a few fields in various areas. To connect to the Photon server for basic synchronization, navigate to the PUN Wizard, click Locate Server Settings, and chnage the IP.
+
+![](/doc/img/to-server-settings.png)
+![](/doc/img/server-settings.png)
+
+To connect to the voice server, find the VoiceConnection prefab (in `Assets/Resources`) and change the IP in the Voice Connection component.
+
+![](/doc/img/voice-server-ip.png)
 
 ### The player prefab
 
@@ -63,11 +84,28 @@ The NetworkedPlayer prefab also contains the voice communications. It can be fou
 
 The VoiceConnection prefab should have working settings. The most important part of this prefab is the Transmit Enabled flag in the Recorder component of this prefab. When this flag is enabled, the user’s voice will be transmitted across the network. I have this flag unset by default. You can enable it directly if you want always-on voice transmission, or you can write a MonoBehaviour that gives you push-to-talk functionality.
 
+You may receive the following runtime errors:
+
+```
+InvalidCastException: Specified cast is not valid.
+Photon.Voice.PhotonTransportProtocol.onVoiceEvent ...
+```
+
+```
+NullReferenceException: Object reference not set to an instance of an object
+Photon.Voice.Unity.UtilityScripts.ConnectAndJoin.get_IsConnected () ...
+```
+
+These can be safely ignored; they don't seem to interfere with voice transmission.
+
+<!-- This information is outdated, but I suppose it may crop up in the future.
+
 Note: during my testing, the voice connection would throw the following error at least once:
 
 `OnJoinRandomFailed errorCode=32760 errorMessage=No match found`
 
 I believe that you can safely ignore this and voice will work fine. It seems to be attempting to join a room before it has fully connected to the voice server, and will eventually join a room properly.
+-->
 
 ### Other Remarks
 
