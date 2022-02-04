@@ -22,6 +22,16 @@ This is a proof-of-concept for a multiplayer VR game, using ping pong as a demon
 
 ## Installation
 
+NOTE: The initial state of this template will be unusable. The reason for this is that a package that is included in this template has a DLL that conflicts with another.
+
+To remove the conflicting DLL, navigate to:
+
+` Library/PackageCache/com.oshoham.unity-google-cloud-streaming-speech-to-text@80a4a38539/Plugins/ `
+
+and delete the files `Newtonsoft.Json.dll` and `Newtonsoft.Json.dll.meta`.
+
+Afterwards, the template should work as intended. The following instructions relate to getting some plugins set up, but it seems that the references to the packages are in the repository already, so you shouldn't have to worry about this.
+
 1. Enable preview packages in Unity
 2. Import the *OpenXR Plugin* and *XR Interaction Toolkit* packages
 3. Under the *XR Interaction Toolkit* package, expand *Samples* and import the *Default Input Actions*
