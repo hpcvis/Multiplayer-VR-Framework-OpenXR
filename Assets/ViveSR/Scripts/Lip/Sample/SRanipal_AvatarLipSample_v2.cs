@@ -69,8 +69,8 @@ namespace ViveSR
 
                 public void UpdateLipShapes(Dictionary<LipShape_v2, float> lipWeightings)
                 {
-                    foreach (var table in LipShapeTables)
-                        RenderModelLipShape(table, lipWeightings);
+                    /*foreach (var table in LipShapeTables)
+                        RenderModelLipShape(table, lipWeightings);*/
                 }
 
                 private void RenderModelLipShape(LipShapeTable_v2 lipShapeTable, Dictionary<LipShape_v2, float> weighting)
