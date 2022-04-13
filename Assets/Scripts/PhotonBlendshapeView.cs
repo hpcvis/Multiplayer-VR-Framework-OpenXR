@@ -1,12 +1,14 @@
-// this doesn't give me an error...yet
 // i have no idea how audio syncing is going to work (check if isRecording and isSpeaking???)
 
 // List of things to do:
 // 1. [DONE] Send lip weights and set them over the network
 // 2. [DONE] Smooth/Lerp lip weights to account for lag
-// 3. [Currently working on] Account for multiple LipShapeTables (like the Lip Sample does)
-// 4. Draw the rest of the owl (sync to audio)
+// 3. [DONE] Account for multiple LipShapeTables (like the Lip Sample does)
+// 4. [Currently Working On] Draw the rest of the owl (sync to audio)
 // 5. (Bonus!) Return to step 2 to account for audio lag
+
+// Other Notes:
+// Queue and serialization modified from the way Photon deals with animations, except much simpler (for now)
 
 namespace Photon.Pun
 {
@@ -24,8 +26,13 @@ namespace Photon.Pun
         [SerializeField] private List<LipShapeTable_v2> LipShapeTables; // set at run time, remove serialize field once done debugging
         private Dictionary<LipShape_v2, float> LipWeightings;
 
+        // Audio Related
+        public bool SyncAudio;
+        private bool m_SyncAudio;
+        private bool m_DidSyncAudioChange = false;
+
         // Serialization Related
-        PhotonStreamQueue m_StreamQueue = new PhotonStreamQueue(120); // same sampling rate as animation for now
+        PhotonStreamQueue m_StreamQueue = new PhotonStreamQueue(120); // same sampling rate as animation for now, modify for smoothness later
         private string LipShapeSerialized;
         private Dictionary<int, float> LipShapeDeserialized;
 
@@ -50,6 +57,7 @@ namespace Photon.Pun
             SRanipal_Lip_v2.GetLipWeightings(out this.LipWeightings);
             this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
             this.LipShapeDeserialized = StringToLipWeights(this.LipShapeSerialized);
+            this.m_SyncAudio = SyncAudio;
         }
 
         void Update()
@@ -59,6 +67,11 @@ namespace Photon.Pun
                 // don't queue up data with nowhere to go
                 this.m_StreamQueue.Reset();
                 return;
+            }
+
+            if (m_SyncAudio != SyncAudio)
+            {
+                m_DidSyncAudioChange = true;
             }
 
             if (this.photonView.IsMine)
@@ -102,9 +115,17 @@ namespace Photon.Pun
             {
                 RenderLipShapeNetwork(this.LipShapeTables[i], this.LipShapeDeserialized);
             }
+        }
 
-            /*this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
-            RenderLipShapeNetwork(this.LipShapeDeserialized);*/
+        // for testing audio sync
+        private void SerializeDataContinuouslyAudio()
+        {
+
+        }
+
+        private void DeserializeDataContinuouslyAudio()
+        {
+
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -116,6 +137,13 @@ namespace Photon.Pun
 
             if (stream.IsWriting) // Write
             {
+                if (m_DidSyncAudioChange)
+                {
+                    this.m_StreamQueue.Reset();
+                    m_SyncAudio = SyncAudio;
+                    m_DidSyncAudioChange = false;
+                }
+
                 this.m_StreamQueue.Serialize(stream);
             }
             else // Read
