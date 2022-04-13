@@ -69,6 +69,9 @@ namespace ViveSR
 
                 public void UpdateLipShapes(Dictionary<LipShape_v2, float> lipWeightings)
                 {
+                    // commented out because of local rendering issues
+                    // unless mirror implementation/third person is needed, ignore this
+
                     /*foreach (var table in LipShapeTables)
                         RenderModelLipShape(table, lipWeightings);*/
                 }
@@ -84,7 +87,7 @@ namespace ViveSR
                 }
 
                 // getters
-                public List<LipShapeTable_v2> GetLipShapeTable()
+                public List<LipShapeTable_v2> GetLipShapeTables()
                 {
                     return LipShapeTables;
                 }

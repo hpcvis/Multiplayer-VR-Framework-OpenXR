@@ -2,9 +2,9 @@
 // i have no idea how audio syncing is going to work (check if isRecording and isSpeaking???)
 
 // List of things to do:
-// 1. Send lip weights and set them over the network (currently working on)
-// 2. Smooth/Lerp lip weights to account for lag
-// 3. Account for multiple LipShapeTables (like the Lip Sample does)
+// 1. [DONE] Send lip weights and set them over the network
+// 2. [DONE] Smooth/Lerp lip weights to account for lag
+// 3. [Currently working on] Account for multiple LipShapeTables (like the Lip Sample does)
 // 4. Draw the rest of the owl (sync to audio)
 // 5. (Bonus!) Return to step 2 to account for audio lag
 
@@ -46,20 +46,12 @@ namespace Photon.Pun
             {
                 Debug.Log("Successfully found script for lip tracking behavior");
             }
-            this.LipShapeTables = this.LipBehavior.GetLipShapeTable();
+            this.LipShapeTables = this.LipBehavior.GetLipShapeTables();
             SRanipal_Lip_v2.GetLipWeightings(out this.LipWeightings);
             this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
             this.LipShapeDeserialized = StringToLipWeights(this.LipShapeSerialized);
-
-            //Debug.Log(this.LipShapeSerialized);
-            /*foreach(KeyValuePair<int, float> p in this.LipShapeDeserialized)
-            {
-                test += string.Format("Key = {0}, Value = {1}, ", p.Key, p.Value);
-            }
-            Debug.Log(test);*/
         }
 
-        // Update is called once per frame
         void Update()
         {
             if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
@@ -75,9 +67,6 @@ namespace Photon.Pun
             }
             else //!this.photonView.IsMine
             {
-                // idea: render lip shapes using dict <int, float> of lip weightings
-                //RenderLipShapeNetwork(this.LipShapeDeserialized);
-
                 this.DeserializeDataContinuously();
             }
         }
@@ -86,8 +75,7 @@ namespace Photon.Pun
 
         #region Serialization
 
-        // hypothetically speaking, this should be serializing continiously in order to have smooth lip movement
-        // otherwise lerping might have to be a thing
+        // serialize continuously for smooth lip movements
         private void SerializeDataContinuously()
         {
             // if lip sample doesn't exist, serialize nothing
@@ -96,8 +84,8 @@ namespace Photon.Pun
                 return;
             }
 
-            //SRanipal_Lip_v2.GetLipWeightings(out this.LipWeightings);
-            this.LipWeightings = this.LipBehavior.GetLipWeightingsDict(); // hopefully more efficient than calculating lipweightings again
+            //only want one lip weight dictionary sent at a time to set for all tables
+            this.LipWeightings = this.LipBehavior.GetLipWeightingsDict(); // maybe more efficient than calculating lip weights again
             this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
             this.m_StreamQueue.SendNext(this.LipShapeSerialized);
         }
@@ -110,7 +98,13 @@ namespace Photon.Pun
             }
 
             this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
-            RenderLipShapeNetwork(this.LipShapeDeserialized);
+            for (int i = 0; i < this.LipShapeTables.Count; i++)
+            {
+                RenderLipShapeNetwork(this.LipShapeTables[i], this.LipShapeDeserialized);
+            }
+
+            /*this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
+            RenderLipShapeNetwork(this.LipShapeDeserialized);*/
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -122,19 +116,10 @@ namespace Photon.Pun
 
             if (stream.IsWriting) // Write
             {
-                // idea: get lip weightings, serialize them into a string, and then send to stream
-                /*SRanipal_Lip_v2.GetLipWeightings(out this.LipWeightings);
-                this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
-                stream.SendNext(this.LipShapeSerialized);*/
-
                 this.m_StreamQueue.Serialize(stream);
             }
             else // Read
             {
-                // idea: get lip weightings via string, and deserialize them into a dict<int, float>
-                /*this.LipShapeSerialized = (string)stream.ReceiveNext();
-                this.LipShapeDeserialized = StringToLipWeights(this.LipShapeSerialized);*/
-
                 this.m_StreamQueue.Deserialize(stream);
             }
         }
@@ -176,7 +161,6 @@ namespace Photon.Pun
         /// <returns>A dictionary of int, float</returns>
         public Dictionary<int, float> StringToLipWeights(string weighting)
         {
-            //should work???
             var weights = weighting.Split(new[] { '{', '}' }, System.StringSplitOptions.RemoveEmptyEntries).Select(w => w.Split(new[] { '=' }));
             Dictionary<int, float> weightsDict = new Dictionary<int, float>();
             foreach (var w in weights)
@@ -188,20 +172,15 @@ namespace Photon.Pun
 
 
         /// <summary>
-        /// Renders the lips over the network by setting the deserializaed blend shapes into the skinned mesh renderer
+        /// Renders blend shape weights on all lip shape tables on a model
         /// </summary>
-        /// <param name="weightings">A dictionary of int, float</param>
-        public void RenderLipShapeNetwork(Dictionary<int, float> weightings)
+        /// <param name="table">Lip shape table that is being modified</param>
+        /// <param name="weightings">Lip weightings to set blend shape weight</param>
+        public void RenderLipShapeNetwork(LipShapeTable_v2 table, Dictionary<int, float> weightings)
         {
-            // okay, this one idk if it works or not
-            // since we already calculated the target index's (lip shape) weighting, this should just plug them in order
-            // hypothetically
-
-            for (int i = 0; i < this.LipShapeTables[0].lipShapes.Length; i++)
+            for (int i = 0; i < table.lipShapes.Length; i++)
             {
-                //int targetIndex = (int)LipShapeTables[0].lipShapes[i];
-                //if (targetIndex > (int)LipShape_v2.Max || targetIndex < 0) continue;
-                this.LipShapeTables[0].skinnedMeshRenderer.SetBlendShapeWeight(i, weightings[i]);
+                table.skinnedMeshRenderer.SetBlendShapeWeight(i, weightings[i]);
             }
         }
 
