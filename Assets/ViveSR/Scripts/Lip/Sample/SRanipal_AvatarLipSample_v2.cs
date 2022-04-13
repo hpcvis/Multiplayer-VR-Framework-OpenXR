@@ -82,6 +82,17 @@ namespace ViveSR
                         lipShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(i, weighting[(LipShape_v2)targetIndex] * 100);
                     }
                 }
+
+                // getters
+                public List<LipShapeTable_v2> GetLipShapeTable()
+                {
+                    return LipShapeTables;
+                }
+
+                public Dictionary<LipShape_v2, float> GetLipWeightingsDict()
+                {
+                    return LipWeightings;
+                }
             }
         }
     }

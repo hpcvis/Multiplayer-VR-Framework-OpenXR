@@ -16,6 +16,7 @@ MonoBehaviour:
   - {fileID: 243938358456976218}
   - {fileID: 7262164729709416693}
   - {fileID: -5267485302128564659}
+  - {fileID: 8835531741426357800}
   - {fileID: 2005164973666993196}
   - {fileID: -2393593261178878308}
   - {fileID: 5946304882996944567}
@@ -383,6 +384,26 @@ MonoBehaviour:
   company: Unity
   priority: 0
   required: 0
+--- !u!114 &6698850504638092606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cd35a53480abe4abe0e502c2be3e20, type: 3}
+  m_Name: HTCViveTrackerProfile WSA
+  m_EditorClassIdentifier: 
+  m_enabled: 0
+  nameUi: HTC Vive Tracker Profile
+  version: 0.0.1
+  featureIdInternal: com.massive.openxr.feature.input.htcvivetracker
+  openxrExtensionStrings: XR_HTCX_vive_tracker_interaction
+  company: MASSIVE
+  priority: 0
+  required: 0
 --- !u!114 &7262164729709416693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,6 +460,7 @@ MonoBehaviour:
   - {fileID: 7307616900832453169}
   - {fileID: 3971377822998829396}
   - {fileID: -4690222433005957583}
+  - {fileID: 6698850504638092606}
   - {fileID: -138896834593042634}
   - {fileID: 8274590687879775064}
   - {fileID: 7603003381407437924}
@@ -485,5 +507,25 @@ MonoBehaviour:
   featureIdInternal: com.unity.openxr.feature.input.handtracking
   openxrExtensionStrings: XR_MSFT_hand_interaction
   company: Unity
+  priority: 0
+  required: 0
+--- !u!114 &8835531741426357800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cd35a53480abe4abe0e502c2be3e20, type: 3}
+  m_Name: HTCViveTrackerProfile Standalone
+  m_EditorClassIdentifier: 
+  m_enabled: 0
+  nameUi: HTC Vive Tracker Profile
+  version: 0.0.1
+  featureIdInternal: com.massive.openxr.feature.input.htcvivetracker
+  openxrExtensionStrings: XR_HTCX_vive_tracker_interaction
+  company: MASSIVE
   priority: 0
   required: 0

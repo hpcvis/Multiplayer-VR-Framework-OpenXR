@@ -133,10 +133,19 @@ public class NetworkedPlayer : MonoBehaviour
             cameraTransform.rotation);
         networkedPlayerHead.transform.SetParent(networkedRepresentationParent);
 
+        MeshRenderer[] childMeshR = GetComponentsInChildren<MeshRenderer>();
+        SkinnedMeshRenderer[] childSkinnedMeshR = GetComponentsInChildren<SkinnedMeshRenderer>();
+
         // disable local rendering of the player head to avoid visual issues with shadows
         if (networkedPlayerHead.GetComponent<PhotonView>().IsMine)
         {
             networkedPlayerHead.GetComponent<MeshRenderer>().enabled = false;
+
+            // check for children meshes to fully disable local rendering of the player head
+            foreach (MeshRenderer renderer in childMeshR)
+                renderer.enabled = false;
+            foreach (SkinnedMeshRenderer skinnedRender in childSkinnedMeshR)
+                skinnedRender.enabled = false;
         }
 
         // 0 => left hand
