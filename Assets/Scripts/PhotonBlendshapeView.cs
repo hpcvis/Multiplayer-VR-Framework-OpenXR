@@ -52,11 +52,7 @@ namespace Photon.Pun
             // set lip weight variables
             if (this.LipBehavior == null)
             {
-                Debug.LogError("Lip tracking behavior is missing; attach SRanipal_AvatarLipSample_v2 to object", this.LipBehavior); // improve error message pls
-            }
-            else
-            {
-                Debug.Log("Successfully found script for lip tracking behavior");
+                Debug.LogError("PhotonBlendShapeView::Awake(): Lip tracking behavior is missing; attach SRanipal_AvatarLipSample_v2 to object"); // improve error message pls
             }
             this.LipShapeTables = this.LipBehavior.GetLipShapeTables();
             SRanipal_Lip_v2.GetLipWeightings(out this.LipWeightings);
@@ -64,9 +60,6 @@ namespace Photon.Pun
             this.LipShapeDeserialized = StringToLipWeights(this.LipShapeSerialized);
 
             LIP_SHAPE_DEFAULTS = LipShapeDeserialized;
-
-            // set audio variables
-            this.m_SyncAudio = this.SyncAudio;
         }
 
         void Start()
@@ -76,7 +69,15 @@ namespace Photon.Pun
             if (this.NetworkedPlayer != null)
             {
                 this.NetworkedVoice = this.NetworkedPlayer.GetComponentInChildren(typeof(PhotonVoiceView)) as PhotonVoiceView;
+
+                if (this.NetworkedVoice == null)
+                {
+                    Debug.LogError("PhotonBlendshapeView::Start(): Networked Player " + this.transform.root.gameObject + " does not have a PhotonVoiceView in children. Audio Sync is disabled.");
+                    this.SyncAudio = false;
+                }
             }
+
+            this.m_SyncAudio = this.SyncAudio;
         }
 
         void Update()
@@ -105,8 +106,6 @@ namespace Photon.Pun
             else if (this.photonView.IsMine)
             {
                 this.SerializeDataContinuously();
-
-                // hopefully for local rendering only
                 this.LipBehavior.UpdateLipShapes(this.LipBehavior.GetLipWeightingsDict());
             }
             else if (!this.photonView.IsMine && this.m_SyncAudio)
@@ -155,7 +154,6 @@ namespace Photon.Pun
         }
 
         // for testing audio sync
-        // so far, pratically the same code wahooooooo
         private void SerializeDataContinuouslyAudio()
         {
             if (this.LipBehavior == null || this.NetworkedPlayer == null || this.NetworkedVoice == null)
@@ -166,7 +164,6 @@ namespace Photon.Pun
             if (!this.NetworkedVoice.RecorderInUse.TransmitEnabled)
             {
                 // if transmit is disabled, do nothing
-                // or maybe have a bool here to signify rendering all blendshapes at 0?
                 return;
             }
 

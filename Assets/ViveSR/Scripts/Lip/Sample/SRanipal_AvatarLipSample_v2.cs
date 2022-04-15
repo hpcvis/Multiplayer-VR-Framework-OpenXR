@@ -32,7 +32,7 @@ namespace ViveSR
                     if (NeededToGetData)
                     {
                         SRanipal_Lip_v2.GetLipWeightings(out LipWeightings);
-                        // commented out due to rendering issues
+                        // Local rendering is done in PhotonBlendShapeView
                         // UpdateLipShapes(LipWeightings);
                     }
                 }
