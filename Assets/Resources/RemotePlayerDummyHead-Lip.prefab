@@ -285,3 +285,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LipBehavior: {fileID: 1485375260766006153}
   LipShapeTables: []
+  SyncAudio: 0

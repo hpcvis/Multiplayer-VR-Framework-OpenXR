@@ -32,7 +32,8 @@ namespace ViveSR
                     if (NeededToGetData)
                     {
                         SRanipal_Lip_v2.GetLipWeightings(out LipWeightings);
-                        UpdateLipShapes(LipWeightings);
+                        // commented out due to rendering issues
+                        // UpdateLipShapes(LipWeightings);
                     }
                 }
 
@@ -69,11 +70,8 @@ namespace ViveSR
 
                 public void UpdateLipShapes(Dictionary<LipShape_v2, float> lipWeightings)
                 {
-                    // commented out because of local rendering issues
-                    // unless mirror implementation/third person is needed, ignore this
-
-                    /*foreach (var table in LipShapeTables)
-                        RenderModelLipShape(table, lipWeightings);*/
+                    foreach (var table in LipShapeTables)
+                        RenderModelLipShape(table, lipWeightings);
                 }
 
                 private void RenderModelLipShape(LipShapeTable_v2 lipShapeTable, Dictionary<LipShape_v2, float> weighting)

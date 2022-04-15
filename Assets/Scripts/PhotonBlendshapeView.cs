@@ -8,7 +8,7 @@
 // 5. (Bonus!) Return to step 2 to account for audio lag
 
 // Other Notes:
-// Queue and serialization modified from the way Photon deals with animations, except much simpler (for now)
+// Queue and serialization modified from the way Photon View syncs animations, except much simpler (for now)
 
 namespace Photon.Pun
 {
@@ -17,19 +17,24 @@ namespace Photon.Pun
     using System.Text;
     using UnityEngine;
     using ViveSR.anipal.Lip;
+    using Photon.Voice.PUN;
 
     public class PhotonBlendshapeView : MonoBehaviourPun, IPunObservable
     {
         #region Variables
         // Lip Shape Related
         [SerializeField] private SRanipal_AvatarLipSample_v2 LipBehavior;
-        [SerializeField] private List<LipShapeTable_v2> LipShapeTables; // set at run time, remove serialize field once done debugging
+        private List<LipShapeTable_v2> LipShapeTables;
         private Dictionary<LipShape_v2, float> LipWeightings;
+        private Dictionary<int, float> LIP_SHAPE_DEFAULTS;
 
         // Audio Related
         public bool SyncAudio;
         private bool m_SyncAudio;
         private bool m_DidSyncAudioChange = false;
+
+        private GameObject NetworkedPlayer;
+        private PhotonVoiceView NetworkedVoice;
 
         // Serialization Related
         PhotonStreamQueue m_StreamQueue = new PhotonStreamQueue(120); // same sampling rate as animation for now, modify for smoothness later
@@ -44,7 +49,7 @@ namespace Photon.Pun
         #region Unity
         public void Awake()
         {
-            // similiar to other photon views, set initial variables in Awake()
+            // set lip weight variables
             if (this.LipBehavior == null)
             {
                 Debug.LogError("Lip tracking behavior is missing; attach SRanipal_AvatarLipSample_v2 to object", this.LipBehavior); // improve error message pls
@@ -57,7 +62,21 @@ namespace Photon.Pun
             SRanipal_Lip_v2.GetLipWeightings(out this.LipWeightings);
             this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
             this.LipShapeDeserialized = StringToLipWeights(this.LipShapeSerialized);
-            this.m_SyncAudio = SyncAudio;
+
+            LIP_SHAPE_DEFAULTS = LipShapeDeserialized;
+
+            // set audio variables
+            this.m_SyncAudio = this.SyncAudio;
+        }
+
+        void Start()
+        {
+            // start() goes after awake(); photon voice view is created in awake()
+            this.NetworkedPlayer = this.transform.root.gameObject;
+            if (this.NetworkedPlayer != null)
+            {
+                this.NetworkedVoice = this.NetworkedPlayer.GetComponentInChildren(typeof(PhotonVoiceView)) as PhotonVoiceView;
+            }
         }
 
         void Update()
@@ -66,17 +85,33 @@ namespace Photon.Pun
             {
                 // don't queue up data with nowhere to go
                 this.m_StreamQueue.Reset();
+
+                // for local rendering when alone
+                this.LipBehavior.UpdateLipShapes(this.LipBehavior.GetLipWeightingsDict());
                 return;
             }
 
-            if (m_SyncAudio != SyncAudio)
+            if (this.m_SyncAudio != this.SyncAudio)
             {
-                m_DidSyncAudioChange = true;
+                this.m_DidSyncAudioChange = true;
             }
 
-            if (this.photonView.IsMine)
+            // serialize data
+            if (this.photonView.IsMine && this.m_SyncAudio)
+            {
+                this.SerializeDataContinuouslyAudio();
+                this.LipBehavior.UpdateLipShapes(this.LipBehavior.GetLipWeightingsDict());
+            }
+            else if (this.photonView.IsMine)
             {
                 this.SerializeDataContinuously();
+
+                // hopefully for local rendering only
+                this.LipBehavior.UpdateLipShapes(this.LipBehavior.GetLipWeightingsDict());
+            }
+            else if (!this.photonView.IsMine && this.m_SyncAudio)
+            {
+                this.DeserializeDataContinuouslyAudio();
             }
             else //!this.photonView.IsMine
             {
@@ -91,7 +126,6 @@ namespace Photon.Pun
         // serialize continuously for smooth lip movements
         private void SerializeDataContinuously()
         {
-            // if lip sample doesn't exist, serialize nothing
             if (this.LipBehavior == null)
             {
                 return;
@@ -107,25 +141,58 @@ namespace Photon.Pun
         {
             if (!this.m_StreamQueue.HasQueuedObjects())
             {
+                // nothing to deserialize, render default blendshapes
+                foreach (var table in this.LipShapeTables)
+                    RenderLipShapeNetwork(table, LIP_SHAPE_DEFAULTS);
+
                 return;
             }
 
             this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
-            for (int i = 0; i < this.LipShapeTables.Count; i++)
-            {
-                RenderLipShapeNetwork(this.LipShapeTables[i], this.LipShapeDeserialized);
-            }
+
+            foreach (var table in this.LipShapeTables)
+                RenderLipShapeNetwork(table, this.LipShapeDeserialized);
         }
 
         // for testing audio sync
+        // so far, pratically the same code wahooooooo
         private void SerializeDataContinuouslyAudio()
         {
+            if (this.LipBehavior == null || this.NetworkedPlayer == null || this.NetworkedVoice == null)
+            {
+                return;
+            }
 
+            if (!this.NetworkedVoice.RecorderInUse.TransmitEnabled)
+            {
+                // if transmit is disabled, do nothing
+                // or maybe have a bool here to signify rendering all blendshapes at 0?
+                return;
+            }
+
+            this.LipWeightings = this.LipBehavior.GetLipWeightingsDict();
+            this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
+            this.m_StreamQueue.SendNext(this.LipShapeSerialized);
         }
 
         private void DeserializeDataContinuouslyAudio()
         {
+            if (!this.m_StreamQueue.HasQueuedObjects())
+            {
+                // nothing to deserialize, render default blendshapes
+                foreach (var table in this.LipShapeTables)
+                    RenderLipShapeNetwork(table, LIP_SHAPE_DEFAULTS);
 
+                return;
+            }
+
+            if (this.NetworkedVoice.IsSpeaking) //?????
+            {
+                this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
+
+                foreach (var table in this.LipShapeTables)
+                    RenderLipShapeNetwork(table, this.LipShapeDeserialized);
+            }
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -137,11 +204,11 @@ namespace Photon.Pun
 
             if (stream.IsWriting) // Write
             {
-                if (m_DidSyncAudioChange)
+                if (this.m_DidSyncAudioChange)
                 {
                     this.m_StreamQueue.Reset();
-                    m_SyncAudio = SyncAudio;
-                    m_DidSyncAudioChange = false;
+                    this.m_SyncAudio = this.SyncAudio;
+                    this.m_DidSyncAudioChange = false;
                 }
 
                 this.m_StreamQueue.Serialize(stream);
