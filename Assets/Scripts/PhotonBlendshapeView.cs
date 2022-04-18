@@ -22,16 +22,17 @@ namespace Photon.Pun
     public class PhotonBlendshapeView : MonoBehaviourPun, IPunObservable
     {
         #region Variables
+        //Defaults
+        private Dictionary<int, float> DS_LIP_SHAPE_DEFAULTS;
+
         // Lip Shape Related
-        [SerializeField] private SRanipal_AvatarLipSample_v2 LipBehavior;
+        private SRanipal_AvatarLipSample_v2 LipBehavior;
         private List<LipShapeTable_v2> LipShapeTables;
         private Dictionary<LipShape_v2, float> LipWeightings;
-        private Dictionary<int, float> LIP_SHAPE_DEFAULTS;
 
         // Audio Related
         public bool SyncAudio;
         private bool m_SyncAudio;
-        private bool m_DidSyncAudioChange = false;
 
         private GameObject NetworkedPlayer;
         private PhotonVoiceView NetworkedVoice;
@@ -42,24 +43,26 @@ namespace Photon.Pun
         private Dictionary<int, float> LipShapeDeserialized;
 
         // Debug
-        string test;
+        bool test;
 
         #endregion
 
         #region Unity
         public void Awake()
         {
-            // set lip weight variables
+            //set lip weight variables
+            this.LipBehavior = this.GetComponent(typeof(SRanipal_AvatarLipSample_v2)) as SRanipal_AvatarLipSample_v2;
             if (this.LipBehavior == null)
             {
-                Debug.LogError("PhotonBlendShapeView::Awake(): Lip tracking behavior is missing; attach SRanipal_AvatarLipSample_v2 to object"); // improve error message pls
+                Debug.LogError("PhotonBlendShapeView::Awake(): Lip tracking behavior is missing; attach SRanipal_AvatarLipSample_v2 script to " + this.gameObject.name); // improve error message pls
             }
+
             this.LipShapeTables = this.LipBehavior.GetLipShapeTables();
             SRanipal_Lip_v2.GetLipWeightings(out this.LipWeightings);
             this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
             this.LipShapeDeserialized = StringToLipWeights(this.LipShapeSerialized);
 
-            LIP_SHAPE_DEFAULTS = LipShapeDeserialized;
+            DS_LIP_SHAPE_DEFAULTS = this.LipShapeDeserialized;
         }
 
         void Start()
@@ -92,11 +95,6 @@ namespace Photon.Pun
                 return;
             }
 
-            if (this.m_SyncAudio != this.SyncAudio)
-            {
-                this.m_DidSyncAudioChange = true;
-            }
-
             // serialize data
             if (this.photonView.IsMine && this.m_SyncAudio)
             {
@@ -125,7 +123,7 @@ namespace Photon.Pun
         // serialize continuously for smooth lip movements
         private void SerializeDataContinuously()
         {
-            if (this.LipBehavior == null)
+            if (this.LipBehavior == null || (SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING))
             {
                 return;
             }
@@ -142,7 +140,7 @@ namespace Photon.Pun
             {
                 // nothing to deserialize, render default blendshapes
                 foreach (var table in this.LipShapeTables)
-                    RenderLipShapeNetwork(table, LIP_SHAPE_DEFAULTS);
+                    RenderLipShapeNetwork(table, DS_LIP_SHAPE_DEFAULTS);
 
                 return;
             }
@@ -156,40 +154,40 @@ namespace Photon.Pun
         // for testing audio sync
         private void SerializeDataContinuouslyAudio()
         {
-            if (this.LipBehavior == null || this.NetworkedPlayer == null || this.NetworkedVoice == null)
+            if (this.LipBehavior == null || this.NetworkedVoice == null || (SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING))
             {
                 return;
             }
 
-            if (!this.NetworkedVoice.RecorderInUse.TransmitEnabled)
+            if (this.NetworkedVoice.RecorderInUse.IsCurrentlyTransmitting)
             {
-                // if transmit is disabled, do nothing
-                return;
+                this.LipWeightings = this.LipBehavior.GetLipWeightingsDict();
+                this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
+                this.m_StreamQueue.SendNext(this.LipShapeSerialized);
             }
 
-            this.LipWeightings = this.LipBehavior.GetLipWeightingsDict();
-            this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
-            this.m_StreamQueue.SendNext(this.LipShapeSerialized);
+            return;
         }
 
         private void DeserializeDataContinuouslyAudio()
         {
             if (!this.m_StreamQueue.HasQueuedObjects())
             {
-                // nothing to deserialize, render default blendshapes
                 foreach (var table in this.LipShapeTables)
-                    RenderLipShapeNetwork(table, LIP_SHAPE_DEFAULTS);
+                    RenderLipShapeNetwork(table, DS_LIP_SHAPE_DEFAULTS);
 
                 return;
             }
 
-            if (this.NetworkedVoice.IsSpeaking) //?????
+            if (this.NetworkedVoice.SpeakerInUse.IsPlaying)
             {
                 this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
 
                 foreach (var table in this.LipShapeTables)
                     RenderLipShapeNetwork(table, this.LipShapeDeserialized);
             }
+
+            return;
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -201,13 +199,6 @@ namespace Photon.Pun
 
             if (stream.IsWriting) // Write
             {
-                if (this.m_DidSyncAudioChange)
-                {
-                    this.m_StreamQueue.Reset();
-                    this.m_SyncAudio = this.SyncAudio;
-                    this.m_DidSyncAudioChange = false;
-                }
-
                 this.m_StreamQueue.Serialize(stream);
             }
             else // Read
