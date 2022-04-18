@@ -1,4 +1,4 @@
-// i have no idea how audio syncing is going to work (check if isRecording and isSpeaking???)
+// i have no idea how audio syncing is going to work
 
 // List of things to do:
 // 1. [DONE] Send lip weights and set them over the network
@@ -38,12 +38,15 @@ namespace Photon.Pun
         private PhotonVoiceView NetworkedVoice;
 
         // Serialization Related
-        PhotonStreamQueue m_StreamQueue = new PhotonStreamQueue(120); // same sampling rate as animation for now, modify for smoothness later
+        PhotonStreamQueue m_StreamQueue = new PhotonStreamQueue(120); // same sampling rate as animation for now, modify for smoothness later; might wanna serialize bytes instead of string for higher sampling rate
         private string LipShapeSerialized;
         private Dictionary<int, float> LipShapeDeserialized;
 
         // Debug
         bool test;
+        bool isFacialTrackingWorking;
+
+        byte[] testArray;
 
         #endregion
 
@@ -54,7 +57,7 @@ namespace Photon.Pun
             this.LipBehavior = this.GetComponent(typeof(SRanipal_AvatarLipSample_v2)) as SRanipal_AvatarLipSample_v2;
             if (this.LipBehavior == null)
             {
-                Debug.LogError("PhotonBlendShapeView::Awake(): Lip tracking behavior is missing; attach SRanipal_AvatarLipSample_v2 script to " + this.gameObject.name); // improve error message pls
+                Debug.LogError("PhotonBlendShapeView::Awake(): Lip tracking behavior is missing; attach SRanipal_AvatarLipSample_v2 script to " + this.gameObject.name);
             }
 
             this.LipShapeTables = this.LipBehavior.GetLipShapeTables();
@@ -63,6 +66,8 @@ namespace Photon.Pun
             this.LipShapeDeserialized = StringToLipWeights(this.LipShapeSerialized);
 
             DS_LIP_SHAPE_DEFAULTS = this.LipShapeDeserialized;
+
+            this.isFacialTrackingWorking = (SRanipal_Lip_Framework.Status == SRanipal_Lip_Framework.FrameworkStatus.WORKING);
         }
 
         void Start()
@@ -75,7 +80,7 @@ namespace Photon.Pun
 
                 if (this.NetworkedVoice == null)
                 {
-                    Debug.LogError("PhotonBlendshapeView::Start(): Networked Player " + this.transform.root.gameObject + " does not have a PhotonVoiceView in children. Audio Sync is disabled.");
+                    Debug.LogError("PhotonBlendshapeView::Start(): Networked Player " + this.transform.root.gameObject.name + " does not have a PhotonVoiceView in children. Audio Sync is disabled.");
                     this.SyncAudio = false;
                 }
             }
@@ -123,14 +128,16 @@ namespace Photon.Pun
         // serialize continuously for smooth lip movements
         private void SerializeDataContinuously()
         {
-            if (this.LipBehavior == null || (SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING))
+            if (this.LipBehavior == null || !this.isFacialTrackingWorking)
             {
                 return;
             }
 
             //only want one lip weight dictionary sent at a time to set for all tables
-            this.LipWeightings = this.LipBehavior.GetLipWeightingsDict(); // maybe more efficient than calculating lip weights again
+            this.LipWeightings = this.LipBehavior.GetLipWeightingsDict();
             this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
+            /*this.testArray = Encoding.UTF8.GetBytes(LipShapeSerialized);
+            this.m_StreamQueue.SendNext(this.testArray);*/
             this.m_StreamQueue.SendNext(this.LipShapeSerialized);
         }
 
@@ -138,13 +145,14 @@ namespace Photon.Pun
         {
             if (!this.m_StreamQueue.HasQueuedObjects())
             {
-                // nothing to deserialize, render default blendshapes
+                // nothing to deserialize, render default blendshapes (all 0's)
                 foreach (var table in this.LipShapeTables)
                     RenderLipShapeNetwork(table, DS_LIP_SHAPE_DEFAULTS);
 
                 return;
             }
-
+            /*string LipFromBytes = Encoding.UTF8.GetString((byte[])this.m_StreamQueue.ReceiveNext());
+            this.LipShapeDeserialized = StringToLipWeights(LipFromBytes);*/
             this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
 
             foreach (var table in this.LipShapeTables)
@@ -154,11 +162,17 @@ namespace Photon.Pun
         // for testing audio sync
         private void SerializeDataContinuouslyAudio()
         {
-            if (this.LipBehavior == null || this.NetworkedVoice == null || (SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING))
+            if (this.LipBehavior == null || this.NetworkedVoice == null || !this.isFacialTrackingWorking)
             {
                 return;
             }
 
+            if (!this.NetworkedVoice.RecorderInUse.TransmitEnabled)
+            {
+                return;
+            }
+
+            // hypothetically should only grab lip movements when recording
             if (this.NetworkedVoice.RecorderInUse.IsCurrentlyTransmitting)
             {
                 this.LipWeightings = this.LipBehavior.GetLipWeightingsDict();
@@ -178,7 +192,10 @@ namespace Photon.Pun
 
                 return;
             }
-
+            
+            // not ideal if recorder can be enabled and disabled at will
+            // i assume if the audio stops playing and the frames aren't finished, queue will build up with unwanted weights
+            // need to find a way to reset the queue after the speaker stops playing
             if (this.NetworkedVoice.SpeakerInUse.IsPlaying)
             {
                 this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
@@ -192,13 +209,21 @@ namespace Photon.Pun
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            if (this.LipBehavior == null)
+            if (this.LipBehavior == null || !this.isFacialTrackingWorking)
             {
                 return;
             }
 
             if (stream.IsWriting) // Write
             {
+                if (this.m_SyncAudio != this.SyncAudio)
+                {
+                    // reset the queue if audio sync option has changed to prevent build up of queue
+                    // could be used to switch between tracking with audio and tracking without it fluidly (little extra thing for me to do i guess)
+                    this.m_StreamQueue.Reset();
+                    this.m_SyncAudio = this.SyncAudio;
+                }
+
                 this.m_StreamQueue.Serialize(stream);
             }
             else // Read
