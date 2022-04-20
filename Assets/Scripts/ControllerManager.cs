@@ -24,7 +24,6 @@ public class ControllerManager : MonoBehaviour
     [Tooltip("Input action that will trigger an animation.")]
     public InputActionProperty triggerAnimation;
 
-
     private void Awake()
     {
         foreach (GameObject ctrl in controllers)

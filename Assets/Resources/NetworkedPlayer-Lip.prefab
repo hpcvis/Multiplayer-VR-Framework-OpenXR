@@ -198,6 +198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1304481656608805396}
   - component: {fileID: 1304481656608805395}
+  - component: {fileID: 251584920718280080}
   m_Layer: 0
   m_Name: RightHand
   m_TagString: Untagged
@@ -265,6 +266,31 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+--- !u!114 &251584920718280080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304481656608805397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e1d497907ec14c4492d0dcc6b17d503, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkedPlayer: {fileID: 1304481657619139855}
+  toggleAudio:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Toggle Audio
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 27fb16b9-ea2b-44aa-aaad-8f722e8e0830
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &1304481656620015835
 GameObject:
   m_ObjectHideFlags: 0
