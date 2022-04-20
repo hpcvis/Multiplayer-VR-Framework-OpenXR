@@ -53,7 +53,7 @@ namespace Photon.Pun
         #region Unity
         public void Awake()
         {
-            //set lip weight variables
+            //find lip behavior script attached to model
             this.LipBehavior = this.GetComponent(typeof(SRanipal_AvatarLipSample_v2)) as SRanipal_AvatarLipSample_v2;
             if (this.LipBehavior == null)
             {
@@ -61,17 +61,23 @@ namespace Photon.Pun
             }
 
             this.LipShapeTables = this.LipBehavior.GetLipShapeTables();
+
+            // set up default lipshape dictionary<int, float> based on attached lip table(s)
+            DS_LIP_SHAPE_DEFAULTS = new Dictionary<int, float>();
+            for (int i = 0; i < this.LipShapeTables[0].lipShapes.Length; i++)
+            {
+                DS_LIP_SHAPE_DEFAULTS.Add(i, 0f);
+            }
+
+            // set starting values
             SRanipal_Lip_v2.GetLipWeightings(out this.LipWeightings);
             this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
             this.LipShapeDeserialized = StringToLipWeights(this.LipShapeSerialized);
-
-            DS_LIP_SHAPE_DEFAULTS = this.LipShapeDeserialized;
-
-            this.isFacialTrackingWorking = (SRanipal_Lip_Framework.Status == SRanipal_Lip_Framework.FrameworkStatus.WORKING);
         }
 
         void Start()
         {
+            // find photon voice view in VoiceConnection
             // start() goes after awake(); photon voice view is created in awake()
             this.NetworkedPlayer = this.transform.root.gameObject;
             if (this.NetworkedPlayer != null)
@@ -90,6 +96,8 @@ namespace Photon.Pun
 
         void Update()
         {
+            this.isFacialTrackingWorking = (SRanipal_Lip_Framework.Status == SRanipal_Lip_Framework.FrameworkStatus.WORKING);
+
             if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
             {
                 // don't queue up data with nowhere to go
@@ -136,9 +144,10 @@ namespace Photon.Pun
             //only want one lip weight dictionary sent at a time to set for all tables
             this.LipWeightings = this.LipBehavior.GetLipWeightingsDict();
             this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
-            /*this.testArray = Encoding.UTF8.GetBytes(LipShapeSerialized);
-            this.m_StreamQueue.SendNext(this.testArray);*/
-            this.m_StreamQueue.SendNext(this.LipShapeSerialized);
+
+            this.testArray = Encoding.UTF8.GetBytes(LipShapeSerialized);
+            this.m_StreamQueue.SendNext(this.testArray);
+            //this.m_StreamQueue.SendNext(this.LipShapeSerialized);
         }
 
         private void DeserializeDataContinuously()
@@ -151,9 +160,9 @@ namespace Photon.Pun
 
                 return;
             }
-            /*string LipFromBytes = Encoding.UTF8.GetString((byte[])this.m_StreamQueue.ReceiveNext());
-            this.LipShapeDeserialized = StringToLipWeights(LipFromBytes);*/
-            this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
+            string LipFromBytes = Encoding.UTF8.GetString((byte[])this.m_StreamQueue.ReceiveNext());
+            this.LipShapeDeserialized = StringToLipWeights(LipFromBytes);
+            //this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
 
             foreach (var table in this.LipShapeTables)
                 RenderLipShapeNetwork(table, this.LipShapeDeserialized);
@@ -209,7 +218,7 @@ namespace Photon.Pun
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            if (this.LipBehavior == null || !this.isFacialTrackingWorking)
+            if (this.LipBehavior == null)
             {
                 return;
             }
