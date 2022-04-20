@@ -38,14 +38,13 @@ namespace Photon.Pun
         private PhotonVoiceView NetworkedVoice;
 
         // Serialization Related
-        PhotonStreamQueue m_StreamQueue = new PhotonStreamQueue(120); // same sampling rate as animation for now, modify for smoothness later; might wanna serialize bytes instead of string for higher sampling rate
+        PhotonStreamQueue m_StreamQueue = new PhotonStreamQueue(120); // same sampling rate as animation for now, modify for smoothness later
         private string LipShapeSerialized;
         private Dictionary<int, float> LipShapeDeserialized;
 
         // Debug
         bool test;
         bool isFacialTrackingWorking;
-
         byte[] testArray;
 
         #endregion
@@ -145,9 +144,8 @@ namespace Photon.Pun
             this.LipWeightings = this.LipBehavior.GetLipWeightingsDict();
             this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
 
-            this.testArray = Encoding.UTF8.GetBytes(LipShapeSerialized);
-            this.m_StreamQueue.SendNext(this.testArray);
-            //this.m_StreamQueue.SendNext(this.LipShapeSerialized);
+            byte[] temp = Encoding.UTF8.GetBytes(LipShapeSerialized);
+            this.m_StreamQueue.SendNext(temp);
         }
 
         private void DeserializeDataContinuously()
@@ -160,9 +158,9 @@ namespace Photon.Pun
 
                 return;
             }
+
             string LipFromBytes = Encoding.UTF8.GetString((byte[])this.m_StreamQueue.ReceiveNext());
             this.LipShapeDeserialized = StringToLipWeights(LipFromBytes);
-            //this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
 
             foreach (var table in this.LipShapeTables)
                 RenderLipShapeNetwork(table, this.LipShapeDeserialized);
@@ -182,11 +180,13 @@ namespace Photon.Pun
             }
 
             // hypothetically should only grab lip movements when recording
-            if (this.NetworkedVoice.RecorderInUse.IsCurrentlyTransmitting)
+            if (this.NetworkedVoice.RecorderInUse.TransmitEnabled)
             {
                 this.LipWeightings = this.LipBehavior.GetLipWeightingsDict();
                 this.LipShapeSerialized = LipWeightsToString(this.LipWeightings);
-                this.m_StreamQueue.SendNext(this.LipShapeSerialized);
+
+                byte[] temp = Encoding.UTF8.GetBytes(LipShapeSerialized);
+                this.m_StreamQueue.SendNext(temp);
             }
 
             return;
@@ -207,7 +207,8 @@ namespace Photon.Pun
             // need to find a way to reset the queue after the speaker stops playing
             if (this.NetworkedVoice.SpeakerInUse.IsPlaying)
             {
-                this.LipShapeDeserialized = StringToLipWeights((string)this.m_StreamQueue.ReceiveNext());
+                string LipFromBytes = Encoding.UTF8.GetString((byte[])this.m_StreamQueue.ReceiveNext());
+                this.LipShapeDeserialized = StringToLipWeights(LipFromBytes);
 
                 foreach (var table in this.LipShapeTables)
                     RenderLipShapeNetwork(table, this.LipShapeDeserialized);
