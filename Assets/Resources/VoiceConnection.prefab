@@ -102,7 +102,7 @@ MonoBehaviour:
   debugEchoMode: 0
   reliableMode: 0
   encrypt: 0
-  transmitEnabled: 1
+  transmitEnabled: 0
   samplingRate: 24000
   frameDuration: 20000
   bitrate: 30000
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   logLevel: 3
   ignoreGlobalLogLevel: 0
-  playbackOnlyWhenEnabled: 0
+  playbackOnlyWhenEnabled: 1
   playDelayMs: -1
   playbackDelaySettings:
     MinDelaySoft: 200

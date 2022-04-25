@@ -99,13 +99,20 @@ namespace Photon.Pun
 
             if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
             {
-                // don't queue up data with nowhere to go
                 this.m_StreamQueue.Reset();
 
                 // for local rendering when alone
                 this.LipBehavior.UpdateLipShapes(this.LipBehavior.GetLipWeightingsDict());
                 return;
             }
+
+            // uncomment if you want to facial track even if audio transmission is disabled
+            /*if (this.SyncAudio != this.NetworkedVoice.RecorderInUse.TransmitEnabled)
+            {
+                this.SyncAudio = !this.SyncAudio;
+
+                return;
+            }*/
 
             // serialize data
             if (this.photonView.IsMine && this.m_SyncAudio)
@@ -196,23 +203,20 @@ namespace Photon.Pun
         {
             if (!this.m_StreamQueue.HasQueuedObjects())
             {
+                // idea: disable networked speaker with playback only when enabled
                 foreach (var table in this.LipShapeTables)
                     RenderLipShapeNetwork(table, DS_LIP_SHAPE_DEFAULTS);
 
                 return;
             }
-            
-            // not ideal if recorder can be enabled and disabled at will
-            // i assume if the audio stops playing and the frames aren't finished, queue will build up with unwanted weights
-            // need to find a way to reset the queue after the speaker stops playing
-            if (this.NetworkedVoice.SpeakerInUse.IsPlaying)
-            {
-                string LipFromBytes = Encoding.UTF8.GetString((byte[])this.m_StreamQueue.ReceiveNext());
-                this.LipShapeDeserialized = StringToLipWeights(LipFromBytes);
 
-                foreach (var table in this.LipShapeTables)
-                    RenderLipShapeNetwork(table, this.LipShapeDeserialized);
-            }
+            // idea: enable networked speaker if not enabled
+            // should force the speaker to only start playback when deserialization starts
+            string LipFromBytes = Encoding.UTF8.GetString((byte[])this.m_StreamQueue.ReceiveNext());
+            this.LipShapeDeserialized = StringToLipWeights(LipFromBytes);
+
+            foreach (var table in this.LipShapeTables)
+                RenderLipShapeNetwork(table, this.LipShapeDeserialized);
 
             return;
         }

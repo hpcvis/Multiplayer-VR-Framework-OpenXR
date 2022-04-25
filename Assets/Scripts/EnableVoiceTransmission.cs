@@ -7,7 +7,7 @@ using Photon.Voice.PUN;
 
 public class EnableVoiceTransmission : MonoBehaviour
 {
-    public GameObject networkedPlayer;
+    private GameObject networkedPlayer;
     private PhotonVoiceView networkedVoice;
 
     [Tooltip("Input action to toggle audio transmission.")]
@@ -20,6 +20,7 @@ public class EnableVoiceTransmission : MonoBehaviour
     }
     void Start()
     {
+        networkedPlayer = transform.root.gameObject;
         networkedVoice = networkedPlayer.GetComponentInChildren(typeof(PhotonVoiceView)) as PhotonVoiceView;
     }
 

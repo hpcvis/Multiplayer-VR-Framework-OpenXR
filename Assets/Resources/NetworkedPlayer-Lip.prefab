@@ -278,7 +278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1d497907ec14c4492d0dcc6b17d503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  networkedPlayer: {fileID: 1304481657619139855}
   toggleAudio:
     m_UseReference: 1
     m_Action:

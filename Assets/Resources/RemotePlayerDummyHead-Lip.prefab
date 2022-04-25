@@ -283,4 +283,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6470d405294e30f40b9344b5e0088712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SyncAudio: 1
+  SyncAudio: 0

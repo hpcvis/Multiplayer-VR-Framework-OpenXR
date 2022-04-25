@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Voice.Unity;
 
 /// <summary>
 /// Script that implements an instance of a player over the network.
@@ -120,6 +121,20 @@ public class NetworkedPlayer : MonoBehaviour
             cameraTransform.rotation
         );
         voiceConnection.transform.SetParent(cameraTransform);
+
+        // i wanna see how this breaks
+        // should hopefully fix the issue of PhotonBlendshapeView::NetworkedVoice being null in the networked representation
+        if (networkedPlayerHead.GetComponent<PhotonView>().IsMine)
+        {
+            voiceConnection.transform.SetParent(cameraTransform);
+            voiceConnection.GetComponent<Speaker>().enabled = false;
+        }
+        else
+        {
+            voiceConnection.transform.SetParent(networkedPlayerHead.transform);
+            //voiceConnection.GetComponent<Speaker>().enabled = voiceConnection.GetComponent<Recorder>().TransmitEnabled;
+            //voiceConnection.GetComponent<Recorder>().enabled = false;
+        }
     }
 
     /// <summary>
