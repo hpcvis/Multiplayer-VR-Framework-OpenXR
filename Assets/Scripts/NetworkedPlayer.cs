@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Voice.Unity;
+using Photon.Voice.PUN;
 
 /// <summary>
 /// Script that implements an instance of a player over the network.
@@ -122,19 +123,18 @@ public class NetworkedPlayer : MonoBehaviour
         );
         voiceConnection.transform.SetParent(cameraTransform);
 
-        // i wanna see how this breaks
-        // should hopefully fix the issue of PhotonBlendshapeView::NetworkedVoice being null in the networked representation
-        if (networkedPlayerHead.GetComponent<PhotonView>().IsMine)
-        {
-            voiceConnection.transform.SetParent(cameraTransform);
-            voiceConnection.GetComponent<Speaker>().enabled = false;
-        }
-        else
+        voiceConnection.GetComponent<PhotonVoiceView>().SpeakerInUse.enabled = false;
+
+        // uhhhhh
+        /*if (!voiceConnection.GetComponent<PhotonView>().IsMine)
         {
             voiceConnection.transform.SetParent(networkedPlayerHead.transform);
-            //voiceConnection.GetComponent<Speaker>().enabled = voiceConnection.GetComponent<Recorder>().TransmitEnabled;
-            //voiceConnection.GetComponent<Recorder>().enabled = false;
-        }
+        }*/
+
+        //check if this will break
+        /*PhotonView photonview = PhotonView.Get(this);
+        photonview.RPC("RPCSetVoiceConnectionParent", RpcTarget.OthersBuffered);
+        PhotonNetwork.SendAllOutgoingCommands();*/
     }
 
     /// <summary>
@@ -223,6 +223,12 @@ public class NetworkedPlayer : MonoBehaviour
     private void SyncNetworkHandAnimations(Animator networkedHand, Animator sourceHand)
     {
         networkedHand.SetBool("IsGrabbing", sourceHand.GetBool("IsGrabbing"));
+    }
+
+    [PunRPC]
+    void RPCSetVoiceConnectionParent()
+    {
+        voiceConnection.transform.SetParent(networkedPlayerHead.transform);
     }
     #endregion
 }
