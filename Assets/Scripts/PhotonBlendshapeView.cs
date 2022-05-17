@@ -204,7 +204,6 @@ namespace Photon.Pun
             if (!this.m_StreamQueue.HasQueuedObjects())
             {
                 // idea: disable networked speaker with playback only when enabled
-                this.NetworkedVoice.SpeakerInUse.enabled = false;
 
                 foreach (var table in this.LipShapeTables)
                     RenderLipShapeNetwork(table, DS_LIP_SHAPE_DEFAULTS);
@@ -214,10 +213,6 @@ namespace Photon.Pun
 
             // idea: enable networked speaker if not enabled
             // should force the speaker to only start playback when deserialization starts
-            if (!this.NetworkedVoice.SpeakerInUse.enabled)
-            {
-                this.NetworkedVoice.SpeakerInUse.enabled = true;
-            }
 
             string LipFromBytes = Encoding.UTF8.GetString((byte[])this.m_StreamQueue.ReceiveNext());
             this.LipShapeDeserialized = StringToLipWeights(LipFromBytes);

@@ -97,7 +97,7 @@ MonoBehaviour:
   voiceDetectionThreshold: 0.01
   voiceDetectionDelayMs: 500
   unityMicrophoneDevice: 
-  photonMicrophoneDeviceId: 0
+  photonMicrophoneDeviceId: -1
   interestGroup: 0
   debugEchoMode: 0
   reliableMode: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
   frameDuration: 20000
   bitrate: 30000
   sourceType: 0
-  microphoneType: 1
+  microphoneType: 0
   audioClip: {fileID: 0}
   loopAudioClip: 1
   reactOnSystemChanges: 0
@@ -279,7 +279,7 @@ MonoBehaviour:
     AppVersion: 
     UseNameServer: 0
     FixedRegion: usw
-    Server: 172.20.199.156
+    Server: 172.20.199.152
     Port: 5055
     ProxyServer: 
     Protocol: 0

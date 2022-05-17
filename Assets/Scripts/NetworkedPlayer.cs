@@ -122,19 +122,6 @@ public class NetworkedPlayer : MonoBehaviour
             cameraTransform.rotation
         );
         voiceConnection.transform.SetParent(cameraTransform);
-
-        voiceConnection.GetComponent<PhotonVoiceView>().SpeakerInUse.enabled = false;
-
-        // uhhhhh
-        /*if (!voiceConnection.GetComponent<PhotonView>().IsMine)
-        {
-            voiceConnection.transform.SetParent(networkedPlayerHead.transform);
-        }*/
-
-        //check if this will break
-        /*PhotonView photonview = PhotonView.Get(this);
-        photonview.RPC("RPCSetVoiceConnectionParent", RpcTarget.OthersBuffered);
-        PhotonNetwork.SendAllOutgoingCommands();*/
     }
 
     /// <summary>
@@ -223,12 +210,6 @@ public class NetworkedPlayer : MonoBehaviour
     private void SyncNetworkHandAnimations(Animator networkedHand, Animator sourceHand)
     {
         networkedHand.SetBool("IsGrabbing", sourceHand.GetBool("IsGrabbing"));
-    }
-
-    [PunRPC]
-    void RPCSetVoiceConnectionParent()
-    {
-        voiceConnection.transform.SetParent(networkedPlayerHead.transform);
     }
     #endregion
 }
