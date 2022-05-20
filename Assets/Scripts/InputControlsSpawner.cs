@@ -50,10 +50,7 @@ public class InputControlsSpawner : NetworkBehaviour {
         if (spawnIndex > inputPrefabs.Length)
             throw new IndexOutOfRangeException("Spawn Index is not associated with a valid prefab");
         
-<<<<<<< HEAD
-=======
         // TODO: Add functionality to spawn VR or non VR input
->>>>>>> d1ffa1eca7b562187e9eb57eb0f00fee7c2cc2bc
         Debug.Log("Spawning input controls!");
         input = Instantiate(inputPrefabs[spawnIndex], Vector3.zero, Quaternion.identity, transform);
         
