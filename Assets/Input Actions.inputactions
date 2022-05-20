@@ -1,5 +1,5 @@
 {
-    "name": "XRI Default Input Actions",
+    "name": "Input Actions",
     "maps": [
         {
             "name": "XRI Head",
@@ -1538,6 +1538,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Test",
+            "id": "42eeedf6-053e-4dbe-bd3f-e6ba8dab4d0b",
+            "actions": [
+                {
+                    "name": "Test",
+                    "type": "Button",
+                    "id": "182c30c0-9849-4514-9601-5c45ef63b775",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5fcac67c-266d-43c6-b59d-2a18fd5d6c97",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "FallbackControls;Generic XR Controller",
+                    "action": "Test",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
@@ -1594,6 +1622,17 @@
                 },
                 {
                     "devicePath": "<XRController>{RightHand}",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "FallbackControls",
+            "bindingGroup": "FallbackControls",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
                     "isOptional": false,
                     "isOR": false
                 }
