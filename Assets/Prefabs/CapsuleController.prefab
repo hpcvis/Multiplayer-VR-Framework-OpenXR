@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4976881717026291401}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -211,7 +211,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d89ec890c84cad468cc6c16d244cf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movespeed: 2
+  hands:
+  - {fileID: 4976881718818288416}
+  - {fileID: 4976881717026291402}
   moveForward:
     m_UseReference: 1
     m_Action:
@@ -223,8 +225,22 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -2909095798375433204, guid: 2770c961c3b1e9441a964cc889849556,
+    m_Reference: {fileID: 3873688786163861706, guid: 2770c961c3b1e9441a964cc889849556,
       type: 3}
+  grab:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Grab
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 1d236138-da90-4715-8802-aaca449fc311
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 548857829682606052, guid: 2770c961c3b1e9441a964cc889849556,
+      type: 3}
+  movementSpeed: 2
 --- !u!114 &4976881717632434798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +293,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4976881718818288423}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []

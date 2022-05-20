@@ -1540,13 +1540,31 @@
             ]
         },
         {
-            "name": "Test",
+            "name": "KeyboardFallback",
             "id": "42eeedf6-053e-4dbe-bd3f-e6ba8dab4d0b",
             "actions": [
                 {
                     "name": "Test",
                     "type": "Button",
                     "id": "182c30c0-9849-4514-9601-5c45ef63b775",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Movement",
+                    "type": "Value",
+                    "id": "d0d43ad1-2fdd-429e-8942-801506a340c7",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Grab",
+                    "type": "Button",
+                    "id": "1f585595-a582-4aff-9c39-80c274bb840b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1562,6 +1580,72 @@
                     "processors": "",
                     "groups": "FallbackControls;Generic XR Controller",
                     "action": "Test",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "03e1e45a-e8d2-4859-89e6-e461d00ec08d",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "e9f73753-5ccb-499a-874f-9997dd648545",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "e8e96cf5-e332-4ad9-8009-04f4b4f9d761",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "a21d3b4f-69f2-4c79-aef8-3a001b1a86a0",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "6184dece-67af-4e77-80e6-990572a1c36d",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "153532ce-7820-434a-958f-62833dcb8f9c",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
