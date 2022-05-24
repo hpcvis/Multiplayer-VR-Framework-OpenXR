@@ -27,14 +27,12 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
 
     private Dictionary<LipShape_v2, float> _currentLipWeightings;
 
-    private bool _wasRenderedThisUpdate;
-
     private void Awake()
     {
         if ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) && Object.HasInputAuthority)
         {
             Debug.LogWarning((object) "NetworkLipTracking::Awake(): Lip Framework is not working. Removing component.");
-            UnityEngine.Object.Destroy((UnityEngine.Object) this);
+            //UnityEngine.Object.Destroy((UnityEngine.Object) this);
         }
     }
 
@@ -44,29 +42,19 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         if ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) && Object.HasInputAuthority)
         {
             Debug.LogWarning((object) "NetworkLipTracking::Awake(): Lip Framework is not working. Removing component.");
-            UnityEngine.Object.Destroy((UnityEngine.Object) this);
+            //UnityEngine.Object.Destroy((UnityEngine.Object) this);
         }
     }
 
     public void BeforeUpdate()
     {
-        this._wasRenderedThisUpdate = false;
+
     }
 
-    public override void Render()
+    public override void FixedUpdateNetwork()
     {
-        if (this.InterpolationDataSource == NetworkBehaviour.InterpolationDataSources.NoInterpolation ||
-            this._wasRenderedThisUpdate)
-        {
-            //this._wasRenderedThisUpdate = true;
-        }
-        else
-        {
-            //this._wasRenderedThisUpdate = true;
-            
-            ComputeUnInterpolatedLipWeights(NetDictTest);
-            ApplyUnInterpolatedLipWeights(NetDictTest);
-        }
+        ComputeUnInterpolatedLipWeights(NetDictTest);
+        ApplyUnInterpolatedLipWeights(NetDictTest);
     }
 
     private void ComputeUnInterpolatedLipWeights(NetworkDictionary<LipShape_v2, float> networkedLipWeights)
