@@ -143,6 +143,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 3807133915305081773}
   - {fileID: 7949002821323983880}
+  - {fileID: 2801769550721941028}
   - {fileID: 7718345340292945603}
   - {fileID: 2163209429990556204}
   SimulationBehaviours: []
@@ -322,7 +323,23 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1468305191387676151}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5014166394287164131
+--- !u!114 &80981540801212819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468305191387773783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a5d939d68f4ef4f954b5756d232cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LipShapeTables:
+  - skinnedMeshRenderer: {fileID: 1468305191384594007}
+    lipShapes: 010000000000000002000000030000000400000006000000050000000800000007000000090000000a0000000b0000000d0000000c0000000f0000000e00000011000000100000001200000014000000130000001600000015000000170000001800000019000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1a000000200000001b0000001c0000001d0000001e0000001f00000022000000210000002400000023000000
+  NeededToGetData: 1
+--- !u!114 &2801769550721941028
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -334,22 +351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c6e08c702499de499035fe1fcf28d54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8924499936879892996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468305191387773783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42350b51669fc604cb2cad73c39f116c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LipShapeTables:
-  - skinnedMeshRenderer: {fileID: 1468305191384594007}
-    lipShapes: 010000000000000002000000030000000400000006000000050000000800000007000000090000000a0000000b0000000d0000000c0000000f0000000e00000011000000100000001200000014000000130000001600000015000000170000001800000019000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1a000000200000001b0000001c0000001d0000001e0000001f00000022000000210000002400000023000000
-  NeededToGetData: 1
+  _interpolationDataSource: 0
+  LipV2: {fileID: 80981540801212819}
 --- !u!1001 &6531052538872928172
 PrefabInstance:
   m_ObjectHideFlags: 0
