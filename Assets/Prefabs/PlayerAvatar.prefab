@@ -234,6 +234,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Avatar_Shieh_V2
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: cc2bd8780f283784899dcb72f2f7702f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: cc2bd8780f283784899dcb72f2f7702f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -371,12 +375,12 @@ PrefabInstance:
     - target: {fileID: 7214636785028439581, guid: c4b9c875ed967534eb12cd57aeeb1183,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0347
       objectReference: {fileID: 0}
     - target: {fileID: 7214636785028439581, guid: c4b9c875ed967534eb12cd57aeeb1183,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.0635
       objectReference: {fileID: 0}
     - target: {fileID: 7214636785028439581, guid: c4b9c875ed967534eb12cd57aeeb1183,
         type: 3}
@@ -438,7 +442,7 @@ MonoBehaviour:
   mode: 1
   offset:
     position: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
   target:
     pose:
       position: {x: 0, y: 0, z: 0}
@@ -493,6 +497,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: OpenVR Controller(Vive Controller MV) - Right
       objectReference: {fileID: 0}
+    - target: {fileID: 6654152787936889342, guid: 61e60013ce1d7d942b8975c98fdf8154,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6744940971008695921, guid: 61e60013ce1d7d942b8975c98fdf8154,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6744940971008695921, guid: 61e60013ce1d7d942b8975c98fdf8154,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6744940971008695921, guid: 61e60013ce1d7d942b8975c98fdf8154,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6744940971008695921, guid: 61e60013ce1d7d942b8975c98fdf8154,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6744940971008695921, guid: 61e60013ce1d7d942b8975c98fdf8154,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7638972948592835565, guid: 61e60013ce1d7d942b8975c98fdf8154,
         type: 3}
       propertyPath: m_RootOrder
@@ -506,12 +540,12 @@ PrefabInstance:
     - target: {fileID: 7638972948592835565, guid: 61e60013ce1d7d942b8975c98fdf8154,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0347
       objectReference: {fileID: 0}
     - target: {fileID: 7638972948592835565, guid: 61e60013ce1d7d942b8975c98fdf8154,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.0635
       objectReference: {fileID: 0}
     - target: {fileID: 7638972948592835565, guid: 61e60013ce1d7d942b8975c98fdf8154,
         type: 3}
@@ -548,6 +582,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7979483208797075370, guid: 61e60013ce1d7d942b8975c98fdf8154,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61e60013ce1d7d942b8975c98fdf8154, type: 3}
 --- !u!1 &502917833561737489 stripped
@@ -573,7 +612,7 @@ MonoBehaviour:
   mode: 1
   offset:
     position: {x: 0, y: 0, z: 0}
-    rotation: {x: 0, y: 0, z: 0, w: 0}
+    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
   target:
     pose:
       position: {x: 0, y: 0, z: 0}
