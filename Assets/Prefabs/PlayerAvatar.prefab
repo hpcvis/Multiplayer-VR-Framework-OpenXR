@@ -357,6 +357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   lipV2: {fileID: 80981540801212819}
+  interpolationTarget: {fileID: 1468305191387277175}
 --- !u!1001 &6531052538872928172
 PrefabInstance:
   m_ObjectHideFlags: 0

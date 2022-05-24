@@ -11,7 +11,7 @@ using ViveSR.anipal.Lip;
 
 public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
 {
-    public LipTrackingBehaviour lipV2;
+    public Transform interpolationTarget;
 
     [Networked]
     [Capacity((int)LipShape_v2.Max)]
@@ -36,10 +36,6 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
             Debug.LogWarning((object) "NetworkLipTracking::Awake(): Lip Framework is not working. Removing component.");
             UnityEngine.Object.Destroy((UnityEngine.Object) this);
         }
-        else
-        {
-            CacheLipBehavior();
-        }
     }
 
     public override void Spawned()
@@ -49,18 +45,6 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         {
             Debug.LogWarning((object) "NetworkLipTracking::Awake(): Lip Framework is not working. Removing component.");
             UnityEngine.Object.Destroy((UnityEngine.Object) this);
-        }
-        else
-        {
-            CacheLipBehavior();
-        }
-    }
-
-    private void CacheLipBehavior()
-    {
-        if (lipV2 == null)
-        {
-            lipV2 = GetComponent<LipTrackingBehaviour>();
         }
     }
 
@@ -102,6 +86,6 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         {
             lipWeights.Add(keyPair.Key, keyPair.Value);
         }
-        lipV2.UpdateLipShapes(lipWeights);
+        this.interpolationTarget.GetComponent<LipTrackingBehaviour>().UpdateLipShapes(lipWeights);
     }
 }
