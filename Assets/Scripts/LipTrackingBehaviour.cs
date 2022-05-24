@@ -5,8 +5,7 @@ using ViveSR.anipal.Lip;
 public class LipTrackingBehaviour : MonoBehaviour
 {
     [SerializeField] private List<LipShapeTable_v2> lipShapeTables;
-    
-    public bool neededToGetData = true;
+
     private Dictionary<LipShape_v2, float> _lipWeightings;
     
     private void Start()
@@ -24,10 +23,7 @@ public class LipTrackingBehaviour : MonoBehaviour
     {                    
         if (SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) return;
 
-        if (!neededToGetData) return;
-        
         SRanipal_Lip_v2.GetLipWeightings(out _lipWeightings);
-        UpdateLipShapes(_lipWeightings);
     }
 
     public void SetLipShapeTables(List<LipShapeTable_v2> lipTables)
@@ -75,5 +71,10 @@ public class LipTrackingBehaviour : MonoBehaviour
             if (targetIndex > (int)LipShape_v2.Max || targetIndex < 0) continue;
             lipShapeTable.skinnedMeshRenderer.SetBlendShapeWeight(i, weighting[(LipShape_v2)targetIndex] * 100);
         }
+    }
+
+    public Dictionary<LipShape_v2, float> GetLipWeightsDict()
+    {
+        return _lipWeightings;
     }
 }

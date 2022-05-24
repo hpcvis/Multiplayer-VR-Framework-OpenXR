@@ -11,21 +11,12 @@ using ViveSR.anipal.Lip;
 
 public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
 {
-    public Transform interpolationTarget;
-
-    [Networked]
-    [Capacity((int)LipShape_v2.Max)]
-    private NetworkDictionary<LipShape_v2, float> PredictedLipShapeFrom => default;
-
-    [Networked]
-    [Capacity((int)LipShape_v2.Max)]
-    private NetworkDictionary<LipShape_v2, float> PredictedLipShapeTo => default;
-
     [Networked] 
     [Capacity((int)LipShape_v2.Max)]
     private NetworkDictionary<LipShape_v2, float> NetDictTest => default;
 
     private Dictionary<LipShape_v2, float> _currentLipWeightings;
+    public LipTrackingBehaviour LipV2 { get; private set; }
 
     private void Awake()
     {
@@ -34,6 +25,8 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
             Debug.LogWarning((object) "NetworkLipTracking::Awake(): Lip Framework is not working. Removing component.");
             //UnityEngine.Object.Destroy((UnityEngine.Object) this);
         }
+
+        CacheLipBehavior();
     }
 
     public override void Spawned()
@@ -43,6 +36,16 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         {
             Debug.LogWarning((object) "NetworkLipTracking::Awake(): Lip Framework is not working. Removing component.");
             //UnityEngine.Object.Destroy((UnityEngine.Object) this);
+        }
+
+        CacheLipBehavior();
+    }
+
+    private void CacheLipBehavior()
+    {
+        if (LipV2 == null)
+        {
+            LipV2 = GetComponent<LipTrackingBehaviour>();
         }
     }
 
@@ -59,7 +62,7 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
 
     private void ComputeUnInterpolatedLipWeights(NetworkDictionary<LipShape_v2, float> networkedLipWeights)
     {
-        SRanipal_Lip_v2.GetLipWeightings(out var lipWeights);
+        var lipWeights = LipV2.GetLipWeightsDict();
         networkedLipWeights.Clear();
         foreach (var keyPair in lipWeights)
         {
@@ -74,6 +77,6 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         {
             lipWeights.Add(keyPair.Key, keyPair.Value);
         }
-        this.interpolationTarget.GetComponent<LipTrackingBehaviour>().UpdateLipShapes(lipWeights);
+        LipV2.UpdateLipShapes(lipWeights);
     }
 }
