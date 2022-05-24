@@ -57,7 +57,7 @@ public class InputControlsSpawner : NetworkBehaviour {
         // TODO: We need a way to hide the HMD that isn't hard coded...
         if (Object.HasInputAuthority)
         {
-            transform.GetChild(0).gameObject.SetActive(false);
+            //transform.GetChild(0).gameObject.SetActive(false);
         }
     }
 }

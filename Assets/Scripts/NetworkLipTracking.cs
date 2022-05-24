@@ -29,11 +29,9 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
 
     private bool _wasRenderedThisUpdate;
 
-    private int count = 0;
-
     private void Awake()
     {
-        if (SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING)
+        if ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) && Object.HasInputAuthority)
         {
             Debug.LogWarning((object) "NetworkLipTracking::Awake(): Lip Framework is not working. Removing component.");
             UnityEngine.Object.Destroy((UnityEngine.Object) this);
@@ -47,7 +45,7 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
     public override void Spawned()
     {
         base.Spawned();
-        if (SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING)
+        if ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) && Object.HasInputAuthority)
         {
             Debug.LogWarning((object) "NetworkLipTracking::Awake(): Lip Framework is not working. Removing component.");
             UnityEngine.Object.Destroy((UnityEngine.Object) this);
@@ -81,6 +79,7 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         else
         {
             //this._wasRenderedThisUpdate = true;
+            
             ComputeUnInterpolatedLipWeights(NetDictTest);
             ApplyUnInterpolatedLipWeights(NetDictTest);
         }
@@ -104,6 +103,5 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
             lipWeights.Add(keyPair.Key, keyPair.Value);
         }
         lipV2.UpdateLipShapes(lipWeights);
-        Debug.Log(++count + ": {" + string.Join(",", lipWeights.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}");
     }
 }
