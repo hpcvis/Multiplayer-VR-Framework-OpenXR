@@ -10,7 +10,7 @@ using ViveSR.anipal.Lip;
 
 public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
 {
-    public LipTrackingBehaviour LipV2;
+    public LipTrackingBehaviour lipV2;
 
     [Networked]
     [Capacity((int)LipShape_v2.Max)]
@@ -20,7 +20,11 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
     [Capacity((int)LipShape_v2.Max)]
     private NetworkDictionary<LipShape_v2, float> PredictedLipShapeTo => default;
 
-    private Dictionary<LipShape_v2, float> CurrentLipWeightings;
+    [Networked] 
+    [Capacity((int)LipShape_v2.Max)]
+    private NetworkDictionary<LipShape_v2, float> NetDictTest => default;
+
+    private Dictionary<LipShape_v2, float> _currentLipWeightings;
 
     private bool _wasRenderedThisUpdate;
 
@@ -53,9 +57,9 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
 
     private void CacheLipBehavior()
     {
-        if (LipV2 == null)
+        if (lipV2 == null)
         {
-            LipV2 = GetComponent<LipTrackingBehaviour>();
+            lipV2 = GetComponent<LipTrackingBehaviour>();
         }
     }
 
@@ -74,7 +78,28 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         else
         {
             //this._wasRenderedThisUpdate = true;
-            SRanipal_Lip_v2.GetLipWeightings(out CurrentLipWeightings);
+            ComputeUnInterpolatedLipWeights(NetDictTest);
+            ApplyUnInterpolatedLipWeights(_currentLipWeightings, NetDictTest);
         }
+    }
+
+    private void ComputeUnInterpolatedLipWeights(NetworkDictionary<LipShape_v2, float> networkedLipWeights)
+    {
+        SRanipal_Lip_v2.GetLipWeightings(out var lipWeights);
+        networkedLipWeights.Clear();
+        foreach (var keyPair in lipWeights)
+        {
+            networkedLipWeights.Add(keyPair.Key, keyPair.Value);
+        }
+    }
+
+    private void ApplyUnInterpolatedLipWeights(Dictionary<LipShape_v2, float> lipWeights, NetworkDictionary<LipShape_v2, float> networkedLipWeights)
+    {
+        lipWeights.Clear();
+        foreach (var keyPair in networkedLipWeights)
+        {
+            lipWeights.Add(keyPair.Key, keyPair.Value);
+        }
+        lipV2.UpdateLipShapes(lipWeights);
     }
 }

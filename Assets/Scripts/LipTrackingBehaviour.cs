@@ -1,14 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ViveSR.anipal.Lip;
 
 public class LipTrackingBehaviour : MonoBehaviour
 {
-    [SerializeField] private List<LipShapeTable_v2> LipShapeTables;
+    [SerializeField] private List<LipShapeTable_v2> lipShapeTables;
     
-    public bool NeededToGetData = true;
-    private Dictionary<LipShape_v2, float> LipWeightings;
+    public bool neededToGetData = true;
+    private Dictionary<LipShape_v2, float> _lipWeightings;
     
     private void Start()
     {
@@ -17,7 +16,7 @@ public class LipTrackingBehaviour : MonoBehaviour
             enabled = false;
             return;
         }
-        SetLipShapeTables(LipShapeTables);
+        SetLipShapeTables(lipShapeTables);
     }
 
     // Update is called once per frame
@@ -25,32 +24,31 @@ public class LipTrackingBehaviour : MonoBehaviour
     {                    
         if (SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) return;
 
-        if (NeededToGetData)
-        {
-            SRanipal_Lip_v2.GetLipWeightings(out LipWeightings);
-            UpdateLipShapes(LipWeightings);
-        }
+        if (!neededToGetData) return;
+        
+        SRanipal_Lip_v2.GetLipWeightings(out _lipWeightings);
+        UpdateLipShapes(_lipWeightings);
     }
 
-    public void SetLipShapeTables(List<LipShapeTable_v2> lipShapeTables)
+    public void SetLipShapeTables(List<LipShapeTable_v2> lipTables)
     {                    
         bool valid = true;
-        if (lipShapeTables == null)
+        if (lipTables == null)
         {
             valid = false;
         }
         else
         {
-            for (int table = 0; table < lipShapeTables.Count; ++table)
+            for (int table = 0; table < lipTables.Count; ++table)
             {
-                if (lipShapeTables[table].skinnedMeshRenderer == null)
+                if (lipTables[table].skinnedMeshRenderer == null)
                 {
                     valid = false;
                     break;
                 }
-                for (int shape = 0; shape < lipShapeTables[table].lipShapes.Length; ++shape)
+                for (int shape = 0; shape < lipTables[table].lipShapes.Length; ++shape)
                 {
-                    LipShape_v2 lipShape = lipShapeTables[table].lipShapes[shape];
+                    LipShape_v2 lipShape = lipTables[table].lipShapes[shape];
                     if (lipShape > LipShape_v2.Max || lipShape < 0)
                     {
                         valid = false;
@@ -60,13 +58,13 @@ public class LipTrackingBehaviour : MonoBehaviour
             }
         }
         if (valid)
-            LipShapeTables = lipShapeTables;
+            lipShapeTables = lipTables;
     }
 
-    public void UpdateLipShapes(Dictionary<LipShape_v2, float> lipWeightings)
+    public void UpdateLipShapes(Dictionary<LipShape_v2, float> lipWeights)
     {
-        foreach (var table in LipShapeTables)
-            RenderModelLipShape(table, lipWeightings);
+        foreach (var table in lipShapeTables)
+            RenderModelLipShape(table, lipWeights);
     }
 
     private void RenderModelLipShape(LipShapeTable_v2 lipShapeTable, Dictionary<LipShape_v2, float> weighting)
