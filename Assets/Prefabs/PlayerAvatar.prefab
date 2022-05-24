@@ -335,10 +335,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06a5d939d68f4ef4f954b5756d232cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LipShapeTables:
+  lipShapeTables:
   - skinnedMeshRenderer: {fileID: 1468305191384594007}
     lipShapes: 010000000000000002000000030000000400000006000000050000000800000007000000090000000a0000000b0000000d0000000c0000000f0000000e00000011000000100000001200000014000000130000001600000015000000170000001800000019000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1a000000200000001b0000001c0000001d0000001e0000001f00000022000000210000002400000023000000
-  NeededToGetData: 1
+  neededToGetData: 0
 --- !u!114 &2801769550721941028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  LipV2: {fileID: 80981540801212819}
+  lipV2: {fileID: 80981540801212819}
 --- !u!1001 &6531052538872928172
 PrefabInstance:
   m_ObjectHideFlags: 0

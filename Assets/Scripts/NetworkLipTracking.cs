@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Fusion;
 using ViveSR.anipal.Lip;
@@ -27,6 +28,8 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
     private Dictionary<LipShape_v2, float> _currentLipWeightings;
 
     private bool _wasRenderedThisUpdate;
+
+    private int count = 0;
 
     private void Awake()
     {
@@ -79,7 +82,7 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         {
             //this._wasRenderedThisUpdate = true;
             ComputeUnInterpolatedLipWeights(NetDictTest);
-            ApplyUnInterpolatedLipWeights(_currentLipWeightings, NetDictTest);
+            ApplyUnInterpolatedLipWeights(NetDictTest);
         }
     }
 
@@ -93,13 +96,14 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         }
     }
 
-    private void ApplyUnInterpolatedLipWeights(Dictionary<LipShape_v2, float> lipWeights, NetworkDictionary<LipShape_v2, float> networkedLipWeights)
+    private void ApplyUnInterpolatedLipWeights(NetworkDictionary<LipShape_v2, float> networkedLipWeights)
     {
-        lipWeights.Clear();
+        var lipWeights = new Dictionary<LipShape_v2, float>();
         foreach (var keyPair in networkedLipWeights)
         {
             lipWeights.Add(keyPair.Key, keyPair.Value);
         }
         lipV2.UpdateLipShapes(lipWeights);
+        Debug.Log(++count + ": {" + string.Join(",", lipWeights.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}");
     }
 }
