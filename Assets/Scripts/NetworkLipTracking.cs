@@ -23,18 +23,12 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
 
     private void Awake()
     {
-        IsLipTrackingWorking = ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) &&
-                                Object.HasInputAuthority);
-        
         CacheLipBehavior();
     }
 
     public override void Spawned()
     {
         base.Spawned();
-        IsLipTrackingWorking = ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) &&
-                                Object.HasInputAuthority);
-
         CacheLipBehavior();
     }
 
@@ -50,12 +44,14 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
 
     public void BeforeUpdate()
     {
-        IsLipTrackingWorking = ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) &&
-                                Object.HasInputAuthority);
+
     }
 
     public override void FixedUpdateNetwork()
     {
+        IsLipTrackingWorking = ((SRanipal_Lip_Framework.Status == SRanipal_Lip_Framework.FrameworkStatus.WORKING) &&
+                                Object.HasInputAuthority);
+        
         if (IsLipTrackingWorking)
         {        
             ComputeUnInterpolatedLipWeights(NetDictTest);
