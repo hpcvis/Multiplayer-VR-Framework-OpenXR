@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Fusion;
 using ViveSR.anipal.Lip;
@@ -9,17 +6,17 @@ using ViveSR.anipal.Lip;
 [RequireComponent(typeof(LipTrackingBehaviour))]
 [DisallowMultipleComponent]
 
-public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
+public class NetworkLipTracking : NetworkBehaviour
 {
     [Networked] 
     [Capacity((int)LipShape_v2.Max)]
     private NetworkDictionary<LipShape_v2, float> NetDictTest => default;
     
     [Networked]
-    public bool IsLipTrackingWorking { get; set; }
+    private bool IsLipTrackingWorking { get; set; }
 
     private Dictionary<LipShape_v2, float> _currentLipWeightings;
-    public LipTrackingBehaviour LipV2 { get; private set; }
+    private LipTrackingBehaviour LipV2 { get; set; }
 
     private void Awake()
     {
@@ -38,25 +35,19 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         {
             LipV2 = GetComponent<LipTrackingBehaviour>();
         }
-
-        _currentLipWeightings = LipV2.GetLipWeightsDict();
-    }
-
-    public void BeforeUpdate()
-    {
-
     }
 
     public override void FixedUpdateNetwork()
     {
+        // Want to check if object belongs to local player, because lip framework is a scene object, not an individual
+        // component
         IsLipTrackingWorking = ((SRanipal_Lip_Framework.Status == SRanipal_Lip_Framework.FrameworkStatus.WORKING) &&
                                 Object.HasInputAuthority);
+
+        if (!IsLipTrackingWorking) return;
         
-        if (IsLipTrackingWorking)
-        {        
-            ComputeUnInterpolatedLipWeights(NetDictTest);
-            ApplyUnInterpolatedLipWeights(NetDictTest);
-        }
+        ComputeUnInterpolatedLipWeights(NetDictTest);
+        ApplyUnInterpolatedLipWeights(NetDictTest);
     }
 
     private void ComputeUnInterpolatedLipWeights(NetworkDictionary<LipShape_v2, float> networkedLipWeights)
@@ -78,6 +69,8 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         {
             lipWeights.Add(keyPair.Key, keyPair.Value);
         }
+        
+        //
         LipV2.UpdateLipShapes(lipWeights);
     }
 }
