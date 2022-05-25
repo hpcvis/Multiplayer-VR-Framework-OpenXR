@@ -14,29 +14,26 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
     [Networked] 
     [Capacity((int)LipShape_v2.Max)]
     private NetworkDictionary<LipShape_v2, float> NetDictTest => default;
+    
+    [Networked]
+    public bool IsLipTrackingWorking { get; set; }
 
     private Dictionary<LipShape_v2, float> _currentLipWeightings;
     public LipTrackingBehaviour LipV2 { get; private set; }
 
     private void Awake()
     {
-        if ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) && Object.HasInputAuthority)
-        {
-            Debug.LogWarning((object) "NetworkLipTracking::Awake(): Lip Framework is not working. Removing component.");
-            //UnityEngine.Object.Destroy((UnityEngine.Object) this);
-        }
-
+        IsLipTrackingWorking = ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) &&
+                                Object.HasInputAuthority);
+        
         CacheLipBehavior();
     }
 
     public override void Spawned()
     {
         base.Spawned();
-        if ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) && Object.HasInputAuthority)
-        {
-            Debug.LogWarning((object) "NetworkLipTracking::Awake(): Lip Framework is not working. Removing component.");
-            //UnityEngine.Object.Destroy((UnityEngine.Object) this);
-        }
+        IsLipTrackingWorking = ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) &&
+                                Object.HasInputAuthority);
 
         CacheLipBehavior();
     }
@@ -47,21 +44,29 @@ public class NetworkLipTracking : NetworkBehaviour, IBeforeUpdate
         {
             LipV2 = GetComponent<LipTrackingBehaviour>();
         }
+
+        _currentLipWeightings = LipV2.GetLipWeightsDict();
     }
 
     public void BeforeUpdate()
     {
-
+        IsLipTrackingWorking = ((SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) &&
+                                Object.HasInputAuthority);
     }
 
     public override void FixedUpdateNetwork()
     {
-        ComputeUnInterpolatedLipWeights(NetDictTest);
-        ApplyUnInterpolatedLipWeights(NetDictTest);
+        if (IsLipTrackingWorking)
+        {        
+            ComputeUnInterpolatedLipWeights(NetDictTest);
+            ApplyUnInterpolatedLipWeights(NetDictTest);
+        }
     }
 
     private void ComputeUnInterpolatedLipWeights(NetworkDictionary<LipShape_v2, float> networkedLipWeights)
     {
+        if (!Object.HasInputAuthority) return;
+        
         var lipWeights = LipV2.GetLipWeightsDict();
         networkedLipWeights.Clear();
         foreach (var keyPair in lipWeights)

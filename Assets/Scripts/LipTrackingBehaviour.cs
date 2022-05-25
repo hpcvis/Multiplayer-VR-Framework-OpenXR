@@ -20,7 +20,7 @@ public class LipTrackingBehaviour : MonoBehaviour
 
     // Update is called once per frame
     private void Update()
-    {                    
+    {
         if (SRanipal_Lip_Framework.Status != SRanipal_Lip_Framework.FrameworkStatus.WORKING) return;
 
         SRanipal_Lip_v2.GetLipWeightings(out _lipWeightings);
