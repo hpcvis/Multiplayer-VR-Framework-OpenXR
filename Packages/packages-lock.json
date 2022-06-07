@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.oshoham.unity-google-cloud-streaming-speech-to-text": {
+      "version": "https://github.com/hpcvis/UnityGoogleStreamingSpeechToText.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "8202bc50a6153686ffc54dbb048d9ec58d18f8cf"
+    },
     "com.unity.collab-proxy": {
       "version": "1.15.18",
       "depth": 0,
