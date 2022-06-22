@@ -95,6 +95,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+# Project specific ignores
+/[Aa]ssets/StreamingAssets/vosk-model-en-us-0.22-lgraph.zip
+
 # Explicitly Allow Fishnet Settings
 !/[Ll]ibrary/
 !/[Ll]ibrary/FishNet.Runtime.Editor.PrefabObjects.Generation.Settings.json
